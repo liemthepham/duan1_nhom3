@@ -9,11 +9,15 @@ class ProductModel{
 
   public function get_list(){
       $sql = "SELECT 
-                  id, 
-                  name, 
-                  price, 
-                  quantity
-              FROM products";
+                  MaSanPham,
+                  MaDanhMuc, 
+                  TenSanPham, 
+                  Mota, 
+                  Gia,
+                  SoLuongTon,
+                  AnhDaiDien,
+                  NgayTao
+              FROM sanpham";
       $data = $this->conn->prepare($sql);
       $data->execute();
       return $data->fetchAll(PDO::FETCH_ASSOC);
