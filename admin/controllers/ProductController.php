@@ -12,4 +12,5 @@ class ProductController{
     
     require_once 'views/Product/list.php';
   }
+
 }

@@ -12,7 +12,7 @@ class ProductModel{
                   MaSanPham,
                   MaDanhMuc, 
                   TenSanPham, 
-                  Mota, 
+                  MoTa, 
                   Gia,
                   SoLuongTon,
                   AnhDaiDien,
@@ -22,4 +22,6 @@ class ProductModel{
       $data->execute();
       return $data->fetchAll(PDO::FETCH_ASSOC);
   }
+
+
 }

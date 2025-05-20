@@ -20,7 +20,8 @@ require_once 'views/layouts/layouts_top.php';
 match ($act) {
     // Dashboards
     '/'                 => (new DashboardController())->index(),
-    'product-list' =>(new ProductController()) -> getAllProduct()
+    'product-list' =>(new ProductController()) -> getAllProduct(),
+    // 'product-add' =>(new ProductController()) -> addProduct(),
     
 };
 
