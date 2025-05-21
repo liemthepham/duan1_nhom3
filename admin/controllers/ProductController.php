@@ -1,35 +1,46 @@
 <?php
 
-class ProductController{
-  private $productModel;
-   private $categoryModel;
-  
-  public function __construct() {
-    $this->productModel = new ProductModel();
-    $this->categoryModel = new CategoryModel();
-  }
-  
-  public function index(){
-    $products = $this->productModel->get_list();
-    
-    require __DIR__ . '/../views/layouts/layouts_top.php';
-    require __DIR__ . '/../views/Product/list.php';
-    require __DIR__ . '/../views/layouts/layout_bottom.php';
-  }
+class ProductController
+{
+    private $productModel;
+    private $categoryModel;
 
-  public function add() {
+
+    public function __construct()
+    {
+        $this->productModel = new ProductModel();
+        $this->categoryModel = new CategoryModel();
+        //bảo vệ không cho user thường vào admin
+        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: index.php?act=auth-login');
+            exit;
+        }
+    }
+
+    public function index()
+    {
+        $products = $this->productModel->get_list();
+
+        require __DIR__ . '/../views/layouts/layouts_top.php';
+        require __DIR__ . '/../views/Product/list.php';
+        require __DIR__ . '/../views/layouts/layout_bottom.php';
+    }
+
+    public function add()
+    {
         $categories = (new CategoryModel())->getAll();
-        if ($_SERVER['REQUEST_METHOD']==='POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (new ProductModel())->create($_POST, $_FILES['AnhDaiDien']);
             header('Location: index.php?act=product-list');
             exit;
         }
-        require __DIR__.'/../views/layouts/layouts_top.php';
-        require __DIR__.'/../views/Product/add.php';
-        require __DIR__.'/../views/layouts/layout_bottom.php';
+        require __DIR__ . '/../views/layouts/layouts_top.php';
+        require __DIR__ . '/../views/Product/add.php';
+        require __DIR__ . '/../views/layouts/layout_bottom.php';
     }
     //update
-public function edit() {
+    public function edit()
+    {
         // 1. Lấy ID từ query string
         $id = $_GET['id'] ?? null;
         if (!$id) {
@@ -60,7 +71,8 @@ public function edit() {
 
     //delete
 
-     public function delete() {
+    public function delete()
+    {
         $id = $_GET['id'] ?? null;
         if (!$id) {
             die("ID không hợp lệ");
@@ -70,7 +82,4 @@ public function edit() {
         header('Location: index.php?act=product-list');
         exit;
     }
-
-    
-
 }

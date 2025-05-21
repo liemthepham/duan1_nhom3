@@ -27,7 +27,7 @@
 
         require_once "./views/layouts/siderbar.php";
         ?>
-        
+
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
         <div class="vertical-overlay"></div>
@@ -39,4 +39,3 @@
 
             <div class="page-content">
                 <div class="container-fluid"></div>
-    
