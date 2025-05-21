@@ -62,20 +62,23 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="index.php?act=product-list" class="nav-link" data-key="t-sweet-alerts">
-                                    Danh sách
+                                    Danh Sách Sản Phẩm
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="index.php?act=product-add" class="nav-link" data-key="t-nestable-list">
-                                    Thêm mới sp
+                                    Thêm Mới Sản Phẩm
                                 </a>
                             </li>
                             <!-- Danh mục -->
                             <li class="nav-item">
-                                <a href="index.php?act=category-list" class="nav-link">Danh sách DM</a>
+                                <a href="index.php?act=category-list" class="nav-link">Danh Sách Danh Mục</a>
                                  </li>
                             <li class="nav-item">
-                                 <a href="index.php?act=category-add" class="nav-link">Thêm DM</a>
+                                 <a href="index.php?act=category-add" class="nav-link">Thêm Danh Mục</a>
+                            </li>
+                            <li class="nav-item">
+                                 <a href="index.php?act=user-list" class="nav-link">Quản Lý User</a>
                             </li>
                         </ul>
                     </div>

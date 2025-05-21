@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 // Require file Common
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
@@ -10,6 +10,11 @@ require_once 'controllers/ProductController.php';
 require_once 'controllers/CategoryController.php';
 // Require toàn bộ file Models
 require_once 'models/ProductModel.php';
+//quản lí user
+require_once __DIR__ . '/controllers/UserController.php';
+//login
+require_once __DIR__ . '/controllers/AuthController.php';
+
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -33,6 +38,17 @@ match ($act) {
     'category-edit'   => (new CategoryController())->edit(),
      //(URL: ?act=category-delete&id=3)
     'category-delete' => (new CategoryController())->delete(),
+    //quan li user
+    'user-list'   => (new UserController())->index(),
+    'user-add'    => (new UserController())->add(),
+    'user-edit'   => (new UserController())->edit(),
+    'user-delete' => (new UserController())->delete(),
+    //login
+    'auth-register' => (new AuthController())->register(),
+    'auth-login'    => (new AuthController())->login(),
+    'auth-logout'   => (new AuthController())->logout(),
+
+default => (new DashboardController())->index(),
     
 };
 

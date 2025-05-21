@@ -62,6 +62,10 @@
                         <a class="dropdown-item" href="auth-logout-basic.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
                 </div>
+                <!--logout--><a href="index.php?act=auth-logout"
+                    class="btn btn-sm btn-outline-danger ms-2">
+                    <i class="ri-logout-box-line"></i>
+                </a>
             </div>
         </div>
     </div>
