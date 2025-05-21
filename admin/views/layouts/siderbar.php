@@ -67,8 +67,15 @@
                             </li>
                             <li class="nav-item">
                                 <a href="index.php?act=product-add" class="nav-link" data-key="t-nestable-list">
-                                    Thêm mới
+                                    Thêm mới sp
                                 </a>
+                            </li>
+                            <!-- Danh mục -->
+                            <li class="nav-item">
+                                <a href="index.php?act=category-list" class="nav-link">Danh sách DM</a>
+                                 </li>
+                            <li class="nav-item">
+                                 <a href="index.php?act=category-add" class="nav-link">Thêm DM</a>
                             </li>
                         </ul>
                     </div>
