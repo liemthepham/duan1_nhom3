@@ -1,121 +1,72 @@
-<!DOCTYPE html>
-<html>
+<?php
+require __DIR__ . '/../layouts/layouts_top.php';
+?>
 
-<head>
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
 
-        th,
-        td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-            vertical-align: middle;
-            text-align: left;
-        }
+<div class="container-fluid py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Danh Sách Sản Phẩm</h5>
+                <a href="index.php?act=product-add" class="btn btn-primary btn-sm">
+                    + Thêm Sản Phẩm
+                </a>
+            </div>
+        </div>
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Mã DM</th>
+                            <th>Tên SP</th>
+                            <th>Mô Tả</th>
+                            <th>Số Lượng Tồn</th>
+                            <th>Giá</th>
+                            <th>Ảnh Đại Diện</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($products as $p): ?>
+                            <tr>
+                                <td><?= $p['MaSanPham'] ?></td>
+                                <td><?= $p['MaDanhMuc'] ?></td>
+                                <td><?= htmlspecialchars($p['TenSanPham']) ?></td>
+                                <td><?= htmlspecialchars($p['MoTa']) ?></td>
+                                <td><?= $p['SoLuongTon'] ?></td>
+                                <td><?= number_format($p['Gia'], 0, ',', '.') ?> đ</td>
+                                <td>
+                                    <?php if (!empty($p['AnhDaiDien'])): ?>
+                                        <img
+                                            src="uploads/<?= rawurlencode($p['AnhDaiDien']) ?>"
+                                            alt=""
+                                            style="max-width:80px; object-fit:cover;">
+                                    <?php else: ?>
+                                        <span class="text-muted">Chưa có</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <a href="index.php?act=product-edit&id=<?= $p['MaSanPham'] ?>"
+                                        class="btn btn-sm btn-warning me-1">Sửa</a>
+                                    <a href="index.php?act=product-delete&id=<?= $p['MaSanPham'] ?>"
+                                        onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')"
+                                        class="btn btn-sm btn-danger">
+                                        Xóa
+                                    </a>
 
-        td img {
-            max-height: 50px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
-        }
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-        /* Nút */
-        .btn {
-            padding: 6px 12px;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            display: inline-block;
-            margin-right: 8px;
-            white-space: nowrap;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-add {
-            background-color: #28a745;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
-        .btn-add:hover {
-            background-color: #218838;
-        }
-
-        .btn-edit {
-            background-color: #007bff;
-        }
-
-        .btn-edit:hover {
-            background-color: #0069d9;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-
-        /* Cột hành động */
-        th.actions,
-        td.actions {
-            width: 160px;
-            text-align: center;
-            white-space: nowrap;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h2>Danh Sách sản phẩm</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Mã Sản Phẩm</th>
-                <th>Mã Danh Mục</th>
-                <th>Tên Sản Phẩm</th>
-                <th>Mô Tả</th>
-                <th>Số Lượng Tồn</th>
-                <th>Giá</th>
-                <th>ảnh Đại Diện</th>
-                <th>Hành Động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($products as $sp): ?>
-                <tr>
-                    <td><?= $sp['MaSanPham'] ?></td>
-                    <td><?= $sp['MaDanhMuc'] ?></td>
-                    <td><?= $sp['TenSanPham'] ?></td>
-                    <td><?= $sp['MoTa'] ?></td>
-                    <td><?= $sp['SoLuongTon'] ?></td>
-                    <td><?= number_format($sp['Gia'], 0, ',', '.') ?> đ</td>
-                    <td><img src="/duan1/uploads/<?= $sp['AnhDaiDien'] ?>" width="80"></td>
-                    <td>
-                        <a href="edit_product.php?MaSanPham=<?= $sp['MaSanPham'] ?>" class="btn btn-edit">Sửa</a>
-                        
-
-                        <a href="delete_product.php?MaSanPham=<?= $sp['MaSanPham'] ?>" class="btn btn-delete" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">Xóa</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-</body>
-
-</html>
+<?php
+require __DIR__ . '/../layouts/layout_bottom.php';
+?>
