@@ -18,7 +18,7 @@
   <div class="mb-3">
     <label>Vai trò</label>
     <select name="VaiTro" class="form-select">
-      <option value="user">Khách hàng</option>
+      <option value="khachhang">Khách hàng</option>
       <option value="admin">Admin</option>
     </select>
   </div>
