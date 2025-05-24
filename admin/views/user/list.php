@@ -1,5 +1,5 @@
 <h2>Quản lý Người dùng</h2>
-<a href="index.php?act=user-add" class="btn btn-primary btn-sm mb-2">+ Thêm User</a>
+<!-- <a href="index.php?act=user-add" class="btn btn-primary btn-sm mb-2">+ Thêm User</a> -->
 <table class="table table-striped table-hover align-middle">
   <thead>
     <tr>
@@ -20,9 +20,9 @@
       <td><?= $u['VaiTro'] ?></td>
       <td><?= $u['NgayTao'] ?></td>
       <td>
-        <a href="index.php?act=user-edit&id=<?= $u['MaNguoiDung'] ?>" class="btn btn-sm btn-warning me-1">Sửa</a>
-        <a href="index.php?act=user-delete&id=<?= $u['MaNguoiDung'] ?>"
-           onclick="return confirm('Xóa user này?')" class="btn btn-sm btn-danger">Xóa</a>
+        <a href="index.php?act=user-edit&id=<?= $u['MaNguoiDung'] ?>" class="btn btn-sm btn-warning me-1">Phân Quyền</a>
+        <!-- <a href="index.php?act=user-delete&id=<?= $u['MaNguoiDung'] ?>"
+           onclick="return confirm('Xóa user này?')" class="btn btn-sm btn-danger">xóa</a> -->
       </td>
     </tr>
     <?php endforeach; ?>
