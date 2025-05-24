@@ -1,0 +1,347 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Giới hạn chiều cao cho banner carousel */
+/* Giới hạn chiều ngang carousel */
+.container > #bannerCarousel {
+  overflow: hidden;
+}
+section.mb-5 {
+  padding-top: 1rem;
+}
+
+/* Ép chiều ngang carousel */
+#bannerCarousel {
+  max-width: 1140px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  overflow: hidden;
+}
+
+/* Chiều cao responsive */
+@media (max-width: 767px) {
+  #bannerCarousel .carousel-item img { height: 200px !important; }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  #bannerCarousel .carousel-item img { height: 300px !important; }
+}
+@media (min-width: 992px) {
+  #bannerCarousel .carousel-item img { height: 350px !important; }
+}
+
+/* Crop ảnh gọn gàng */
+#bannerCarousel .carousel-item img {
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+#bannerCarousel .carousel-caption {
+  background: rgba(0,0,0,0.4);
+}
+.carousel-indicators [data-bs-target] {
+  background-color: #fff;
+}
+.carousel-indicators .active {
+  background-color: #007bff;
+}
+#bannerCarousel .carousel-caption h1 {
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+
+.product-card {
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.category-item {
+    padding: 25px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.category-item:hover {
+    background: #e9ecef;
+    transform: scale(1.03);
+}
+
+footer {
+    background: #212529;
+    color: #ced4da;
+}
+
+footer a {
+    color: #adb5bd;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* Style cho form đăng nhập/đăng ký */
+.auth-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form .form-control {
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s;
+}
+
+.auth-form .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+}
+
+.auth-form .btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.auth-form .btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #004494);
+    transform: translateY(-2px);
+}
+
+.auth-tabs .nav-link {
+    color: #495057;
+    border: none;
+    padding: 12px 25px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.auth-tabs .nav-link.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    background: none;
+}
+
+.social-login {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.social-login .btn {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-facebook {
+    background: #3b5998;
+    color: white;
+}
+
+.btn-facebook:hover {
+    background: #344e86;
+    color: white;
+}
+
+.btn-google {
+    background: #db4437;
+    color: white;
+}
+
+.btn-google:hover {
+    background: #c53929;
+    color: white;
+}
+
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.form-check-label {
+    color: #6c757d;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.btn-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+/* Logo styles */
+.brand-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.brand-logo i {
+    font-size: 2rem;
+    margin-right: 10px;
+    color: #007bff;
+}
+
+.brand-logo span {
+    background: linear-gradient(45deg, #007bff, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.brand-logo:hover {
+    color: white;
+    text-decoration: none;
+}
+.container > #bannerCarousel {
+  overflow: hidden;
+}
+#bannerCarousel {
+  max-width: 1140px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+}
+/* 1. Navbar khi scroll */
+.navbar.scrolled {
+  background-color: rgba(33,37,41,0.9);
+  transition: background-color 0.3s;
+}
+
+/* 2. Hiệu ứng hover cho product card */
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+/* 3. Khoảng trắng thêm giữa các section */
+section.mb-5 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* 4. Gradient cho nút mua ngay */
+.btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3) !important;
+  border: none;
+}
+
+/* 5. Responsive typography cho caption */
+#bannerCarousel .carousel-caption h1 {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+/* 1. Navbar nền mờ khi scroll */
+.navbar.scrolled {
+  background-color: rgba(33,37,41,0.9);
+  transition: background-color 0.3s;
+}
+
+/* 2. Hiệu ứng hover cho thẻ sản phẩm */
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+/* 3. Tăng khoảng trắng trên/dưới carousel */
+section.mb-5 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* 4. Gradient cho nút primary */
+.btn-primary {
+  background: linear-gradient(45deg, #007bff, #0056b3) !important;
+  border: none;
+}
+
+/* 5. Responsive typography cho tiêu đề carousel */
+#bannerCarousel .carousel-caption h1 {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* 6. Indicator nổi bật hơn */
+.carousel-indicators [data-bs-target] {
+  background-color: rgba(255,255,255,0.8);
+}
+.carousel-indicators .active {
+  background-color: #007bff;
+}
+
+/* 7. Mờ nhẹ hơn nền caption */
+#bannerCarousel .carousel-caption {
+  background: rgba(0,0,0,0.4);
+}
+/* Section danh mục */
+section.mb-5.categories {
+  background-color: #f1f5f9; /* xám nhạt */
+  padding: 2rem 0;
+}
+.category-item {
+  border: 1px solid #e0e0e0;
+}
+.category-item:hover {
+  border-color: #007bff;
+  background-color: #e7f1ff;
+}
+footer {
+  background: #343a40;
+}
+footer h5 {
+  color: #ffffff;
+}
+footer a {
+  color: #adb5bd;
+}
+footer a:hover {
+  color: #ff4081; /* sắc hồng neon */
+}
+h2.text-center {
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+.product-card {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.btn-outline-primary {
+  color: #20c997;
+  border: 2px solid #20c997;
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+.btn-outline-primary:hover {
+  background-color: #20c997;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.3);
+}
+
