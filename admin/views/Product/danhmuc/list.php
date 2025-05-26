@@ -6,7 +6,7 @@
     <tr>
       <th>ID</th>
       <th>Tên danh mục</th>
-      <th>Danh mục cha</th>
+      <!-- <th>Danh mục cha</th> -->
       <th>Hành động</th>
     </tr>
   </thead>
@@ -15,21 +15,6 @@
       <tr>
         <td><?= $row['MaDanhMuc'] ?></td>
         <td><?= htmlspecialchars($row['TenDanhMuc']) ?></td>
-        <td>
-          <?php
-            if ($row['MaDanhMucCha']) {
-              // tìm tên của cha
-              foreach ($list as $p) {
-                if ($p['MaDanhMuc'] == $row['MaDanhMucCha']) {
-                  echo htmlspecialchars($p['TenDanhMuc']);
-                  break;
-                }
-              }
-            } else {
-              echo '<em>(Root)</em>';
-            }
-          ?>
-        </td>
         <td>
           <a href="index.php?act=category-edit&id=<?= $row['MaDanhMuc'] ?>"
              class="btn btn-sm btn-warning">Sửa</a>

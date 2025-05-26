@@ -107,4 +107,13 @@ class ProductModel{
         $stmt = $this->conn->prepare("DELETE FROM sanpham WHERE MaSanPham = ?");
         return $stmt->execute([$id]);
     }
+public function countByCategory(int $categoryId): int
+{
+    $sql = "SELECT COUNT(*) AS total FROM sanpham WHERE MaDanhMuc = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$categoryId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return (int)($row['total'] ?? 0);
+}
+
 }
