@@ -1,17 +1,29 @@
 <?php
 require_once __DIR__ . '/../models/CategoryModel.php';
+require_once __DIR__ . '/../models/ProductModel.php';
 
-class CategoryController {
+class CategoryController
+{
+    private CategoryModel $categoryModel;
+    private ProductModel  $productModel;
     private $model;
-    public function __construct() {
+    public function __construct()
+    {
         $this->model = new CategoryModel();
+         $this->categoryModel = new CategoryModel();
+        $this->productModel  = new ProductModel();
+        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: index.php?act=auth-login');
+            exit;
+        }
     }
 
     // Hiện form và xử lý POST
-    public function add() {
+    public function add()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->model->create($_POST);
-           header('Location: index.php?act=category-list');
+            header('Location: index.php?act=category-list');
             exit;
         }
         // Lấy danh mục để chọn cha
@@ -20,7 +32,8 @@ class CategoryController {
     }
 
     // Sửa
-    public function edit() {
+    public function edit()
+    {
         $id = $_GET['id'] ?? null;
         $item = $this->model->find($id);
         if (!$item) {
@@ -34,17 +47,36 @@ class CategoryController {
         $parents = $this->model->getAll();
         require __DIR__ . '/../views/Product/danhmuc/edit.php';
     }
-
-    // Xóa
-    public function delete() {
-        $id = $_GET['id'] ?? null;
-        $this->model->delete($id);
+    //xóa
+   public function delete()
+{
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        $_SESSION['error_msg'] = 'ID không hợp lệ.';
         header('Location: index.php?act=category-list');
         exit;
     }
 
+    // Đếm số SP
+    $count = $this->productModel->countByCategory((int)$id);
+    if ($count > 0) {
+        $_SESSION['error_msg'] = "Không thể xóa: còn $count sản phẩm.";
+        header('Location: index.php?act=category-list');
+        exit;
+    }
+
+    // Xóa nếu OK
+    $this->categoryModel->delete((int)$id);
+    $_SESSION['success_msg'] = 'Xóa thành công.';
+    header('Location: index.php?act=category-list');
+    exit;
+}
+
+
+
     // Danh sách
-    public function index() {
+    public function index()
+    {
         $list = $this->model->getAll();
         require __DIR__ . '/../views/Product/danhmuc/list.php';
     }

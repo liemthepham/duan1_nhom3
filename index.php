@@ -1,12 +1,23 @@
 <?php
+session_start();
 require_once './commons/env.php';
 require_once './commons/function.php';
 require_once './controllers/HomeController.php';
+
+if (!empty($_SESSION['success_msg'])): ?>
+  <div class="alert alert-success alert-dismissible fade show" role="alert" style="position:fixed;top:70px;right:20px;z-index:1000;">
+    <?= htmlspecialchars($_SESSION['success_msg']) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<?php 
+  unset($_SESSION['success_msg']); 
+endif;
 
 $act = $_GET['act'] ?? '/';
 
 match ($act) {
     '/' => (new HomeController())->index(),
+      default             => (new HomeController())->index(),
 };
 ?>
 
@@ -52,7 +63,6 @@ match ($act) {
                 </ul>
                 <div class="d-flex">
                     <a href="cart.php" class="btn btn-outline-light me-2"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal"><i class="fas fa-user"></i> Đăng nhập</button>
                 </div>
             </div>
         </div>

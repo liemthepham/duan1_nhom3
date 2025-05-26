@@ -15,7 +15,6 @@ require_once __DIR__ . '/controllers/UserController.php';
 //login
 require_once __DIR__ . '/controllers/AuthController.php';
 
-
 // Route
 $act = $_GET['act'] ?? '/';
 
