@@ -6,144 +6,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa hàng điện tử</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./public/css/custom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/duan1//public/css/cusstom.css">
     <style>
-        .product-card {
-            transition: transform 0.3s;
-            margin-bottom: 20px;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-image {
-            height: 200px;
-            object-fit: cover;
-        }
-        .price {
-            color: #e44d26;
-            font-weight: bold;
-        }
-        /* Custom CSS for banner image */
-        .banner-img {
-            width: 85%; /* Ensure it takes full width of its container */
-            max-height: 400px; /* Set a maximum height */
-            object-fit: cover; /* Crop the image to cover the area without distortion */
-        }
-        /* Custom CSS for banner section spacing */
-        .banner-section {
-            margin-top: 10px; /* Adjust this value for desired spacing from the top */
-        }
+
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER -->
+    <?php
+    $user = $_SESSION['user'] ?? null;
+    ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand brand-logo" href="index.php">
-                <i class="fas fa-mobile-alt"></i>
-                <span>TechStore</span>
+            <a class="navbar-brand" href="index.php?act=home">
+                <i class="fas fa-mobile-alt"></i> TechStore
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- menu chính -->
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.php">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Khuyến mãi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?act=home">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?act=products">Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?act=contact">Liên hệ</a></li>
                 </ul>
-                <div class="d-flex">
-                    <a href="index.php?act=cart" class="btn btn-outline-light me-2"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
-                </div>
+
+                <!-- phần bên phải -->
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <!-- icon giỏ -->
+                    <li class="nav-item me-3 position-relative">
+                        <a class="btn btn-outline-light" href="index.php?act=cart">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                        <?php if (!empty($_SESSION['cart'])): ?>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= count($_SESSION['cart']) ?>
+                            </span>
+                        <?php endif; ?>
+                    </li>
+                    <?php if (!empty($_SESSION['flash'])): ?>
+                        <?php
+                        $f = $_SESSION['flash'];
+                        unset($_SESSION['flash']);
+                        ?>
+                        <div class="container mt-3">
+                            <div class="alert alert-<?= $f['type'] ?> alert-dismissible fade show" role="alert">
+                                <?= htmlspecialchars($f['message']) ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <!-- nếu chưa login -->
+                    <?php if (!$user): ?>
+                        <li class="nav-item d-flex">
+                            <a href="index.php?act=login"
+                                class="btn btn-outline-light me-2 px-3 py-1">
+                                Đăng nhập
+                            </a>
+                            <a href="index.php?act=register"
+                                class="btn btn-primary px-3 py-1">
+                                Đăng ký
+                            </a>
+                        </li>
+
+                        <!-- nếu đã login -->
+                    <?php else: ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center"
+                                href="#" id="userMenu" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i>
+                                <?= htmlspecialchars($user['TenDangNhap'] ?? $user['Email']) ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                <?php if (($user['VaiTro'] ?? '') === 'admin'): ?>
+                                    <li><a class="dropdown-item" href="admin/index.php">Dashboard Admin</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                <?php endif; ?>
+                                <li><a class="dropdown-item" href="index.php?act=logout">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Modal Đăng nhập/Đăng ký -->
-    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content auth-form">
-                <div class="modal-header">
-                    <ul class="nav nav-tabs auth-tabs w-100" id="authTabs" role="tablist">
-                        <li class="nav-item w-50" role="presentation">
-                            <button class="nav-link active w-100" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Đăng nhập</button>
-                        </li>
-                        <li class="nav-item w-50" role="presentation">
-                            <button class="nav-link w-100" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">Đăng ký</button>
-                        </li>
-                    </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="tab-content" id="authTabContent">
-                        <!-- Form Đăng nhập -->
-                        <div class="tab-pane fade show active" id="login" role="tabpanel">
-                            <form>
-                                <div class="mb-3">
-                                    <input type="email" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="password" class="form-control" placeholder="Mật khẩu">
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="rememberMe">
-                                    <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Đăng nhập</button>
-                            </form>
-                            <div class="social-login">
-                                <p class="text-muted">Hoặc đăng nhập với</p>
-                                <button class="btn btn-facebook mb-2">
-                                    <i class="fab fa-facebook-f me-2"></i> Facebook
-                                </button>
-                                <button class="btn btn-google">
-                                    <i class="fab fa-google me-2"></i> Google
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Form Đăng ký -->
-                        <div class="tab-pane fade" id="register" role="tabpanel">
-                            <form>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="Họ và tên">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="email" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="password" class="form-control" placeholder="Mật khẩu">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="password" class="form-control" placeholder="Xác nhận mật khẩu">
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="agreeTerms">
-                                    <label class="form-check-label" for="agreeTerms">Tôi đồng ý với điều khoản sử dụng</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Đăng ký</button>
-                            </form>
-                        </div>
-                    </div>
+
+
+
+    <!-- BANNER – BOOTSTRAP CAROUSEL -->
+    <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+        <!-- 1) Indicators (đốm nhỏ) -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2"></button>
+        </div>
+
+        <!-- 2) Wrapper cho các slide -->
+        <div class="carousel-inner">
+
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <img src="public/images/banner1.png" class="d-block w-100 banner-img" alt="Hotsale Mùa Hè 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 class="display-4">Hotsale Mùa Hè</h1>
+                    <p class="lead">Ưu đãi lớn, quà tặng hấp dẫn</p>
+                    <a href="index.php?act=product-list" class="btn btn-primary btn-lg">Khám phá</a>
                 </div>
             </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <img src="public/images/banner2'.jpg" class="d-block w-100 banner-img" alt="Hotsale Mùa Hè 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 class="display-4">Flash Sale Đỉnh Cao</h1>
+                    <p class="lead">Giảm sâu lên tới 50%</p>
+                    <a href="index.php?act=product-list" class="btn btn-primary btn-lg">Mua ngay</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <img src="public/images/banner3.jpg" class="d-block w-100 banner-img" alt="Hotsale Mùa Hè 3">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 class="display-4">Combo Siêu Tiết Kiệm</h1>
+                    <p class="lead">Mua 2 tặng 1 – Chỉ hôm nay</p>
+                    <a href="index.php?act=product-list" class="btn btn-primary btn-lg">Xem chi tiết</a>
+                </div>
+            </div>
+
         </div>
+
+        <!-- 3) Prev / Next controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Trước</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Sau</span>
+        </button>
     </div>
 
-    <!-- BANNER -->
-    <section class="banner-section ">
-        <div class="container position-relative text-center text-white">
-            <img src="public/images/banner3.jpg" class="img-fluid rounded banner-img" alt="Hotsale Mùa Hè">
-            <div class="position-absolute top-50 start-50 translate-middle w-100">
-                <h1 class="display-4">Hotsale Mùa Hè</h1>
-                <p class="lead">Ưu đãi lớn, quà tặng hấp dẫn</p>
-                <a href="index.php?act=product-list" class="btn btn-primary btn-lg">Khám phá</a>
-            </div>
-        </div>
-    </section>
 
     <!-- DANH MỤC -->
     <div class="container py-5">
@@ -154,8 +167,8 @@
                 <div class="col-md-3">
                     <div class="category-item text-center">
                         <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" class="text-decoration-none text-dark">
-                             <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
-                             <h5><?php echo htmlspecialchars($cat['TenDanhMuc']); ?></h5>
+                            <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
+                            <h5><?php echo htmlspecialchars($cat['TenDanhMuc']); ?></h5>
                         </a>
                     </div>
                 </div>
@@ -167,30 +180,26 @@
     <div class="container mb-5">
         <h2 class="text-center mb-4">Sản phẩm bán chạy</h2>
         <div class="row g-4">
-            <?php foreach ($products as $product): // Sử dụng biến $products từ index.php ?>
+            <?php foreach ($products as $product): ?>
                 <div class="col-md-3">
-                    <div class="card h-100 product-card border-0 shadow-sm">
-                        <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>" 
-                             class="card-img-top product-image" alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($product['TenSanPham']); ?></h5>
-                            <p class="card-text">
-                                <small class="text-muted"><?php echo htmlspecialchars($product['TenDanhMuc']); ?></small>
+                    <div class="card h-100 border-0 shadow-sm product-card">
+                        <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>"
+                            class="card-img-top product-image"
+                            alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-2">
+                                <?php echo htmlspecialchars($product['TenSanPham']); ?>
+                            </h5>
+                            <p class="text-danger fw-bold mb-3">
+                                <?php echo number_format($product['Gia']); ?> VNĐ
                             </p>
-                             <?php // Giới hạn mô tả sản phẩm chỉ hiển thị 100 ký tự
-                                $description = htmlspecialchars($product['MoTa']);
-                                if (strlen($description) > 100) {
-                                    $description = substr($description, 0, 100) . '...';
-                                }
-                            ?>
-                            <p class="card-text"><?php echo $description; ?></p>
-                            <p class="price"><?php echo number_format($product['Gia'], 0, ',', '.'); ?> VNĐ</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>" class="btn btn-primary">Chi tiết</a>
-                                <form action="index.php?act=add-to-cart" method="POST" style="display: inline;">
-                                    <input type="hidden" name="product_id" value="<?php echo $product['MaSanPham']; ?>">
-                                    <input type="hidden" name="quantity" value="1">
-                                    <button type="submit" class="btn btn-success">
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>"
+                                    class="btn btn-primary btn-sm">Chi tiết</a>
+                                <form action="index.php?act=add-to-cart" method="POST" style="display:inline;">
+                                    <input type="hidden" name="product_id"
+                                        value="<?php echo $product['MaSanPham']; ?>">
+                                    <button type="submit" class="btn btn-success btn-sm">
                                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                                     </button>
                                 </form>
@@ -199,6 +208,7 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+
         </div>
     </div>
 
@@ -234,7 +244,8 @@
         <h2 class="text-center mb-4">Sản phẩm gợi ý</h2>
         <div class="row g-4">
             <?php /* Cần lấy dữ liệu sản phẩm gợi ý từ database */ ?>
-            <?php for ($i = 1; $i <= 4; $i++): // Tạm thời hiển thị dữ liệu mẫu ?>
+            <?php for ($i = 1; $i <= 4; $i++): // Tạm thời hiển thị dữ liệu mẫu 
+            ?>
                 <div class="col-md-3">
                     <div class="card h-100 product-card border-0 shadow-sm">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWZ5IzzJCuIb0UjqEcCBcQZoivGa4zAy6A-g&s" class="card-img-top" alt="Sản phẩm">
@@ -283,4 +294,4 @@
     </script>
 </body>
 
-</html> 
+</html>
