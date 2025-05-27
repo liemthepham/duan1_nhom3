@@ -1,3 +1,4 @@
+
 body {
     background-color: #f8f9fa;
     font-family: 'Segoe UI', sans-serif;
@@ -343,5 +344,98 @@ h2.text-center {
   background-color: #20c997;
   color: #fff;
   box-shadow: 0 4px 12px rgba(32, 201, 151, 0.3);
+}
+/* === USER AVATAR & NAME IN NAVBAR === */
+.navbar-nav .nav-item.dropdown .nav-link.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* cách icon với tên */
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.navbar-nav .nav-item.dropdown .nav-link.dropdown-toggle:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Avatar vòng tròn chứa chữ cái đầu */
+.navbar-nav .nav-item.dropdown .user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #0d6efd;  /* màu primary */
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+/* Tên user bên cạnh avatar */
+.navbar-nav .nav-item.dropdown .user-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #f8f9fa; /* trắng sáng */
+}
+
+/* Dropdown menu bo góc, shadow */
+.navbar-nav .dropdown-menu {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  min-width: 180px;
+}
+
+/* Nút Dashboard Admin nổi bật hơn */
+.navbar-nav .dropdown-item[href*="admin"] {
+  font-weight: 600;
+}
+
+/* Đổi màu nền khi hover item */
+.navbar-nav .dropdown-item:hover {
+  background-color: #f1f3f5;
+}
+
+/* Padding cho từng item */
+.navbar-nav .dropdown-item {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+/* Gạch ngăn cách */
+.navbar-nav .dropdown-divider {
+  margin: 0.3rem 0;
+  border-color: #e9ecef;
+}
+
+/* Ẩn menu ban đầu */
+.nav-item.dropdown .dropdown-menu {
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Khi Bootstrap gắn class .show lên chính .dropdown-menu */
+.nav-item.dropdown .dropdown-menu.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.nav-link.dropdown-toggle {
+  gap: 0.75rem;
+}
+.user-avatar:hover {
+  background-color: #0b5ed7;
+  cursor: pointer;
+}
+.navbar .btn {
+  border-radius: 0.5rem;      /* bo góc */
+  transition: transform .15s; /* hiệu ứng nhỏ */
+}
+.navbar .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 

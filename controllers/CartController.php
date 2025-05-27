@@ -117,8 +117,7 @@ class CartController
         // Chuyển hướng về trang giỏ hàng
         header('Location: index.php?act=cart');
          exit;
-    }
-} 
+    } 
 
     public function index()
     {
@@ -265,4 +264,6 @@ class CartController
             'image' => 'https://via.placeholder.com/100'
         ];
     }
+
+
 }

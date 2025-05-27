@@ -51,7 +51,7 @@
         <div class="row">
             <!-- Product Image -->
             <div class="col-md-6">
-                <img src="images/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>" 
+                <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>" 
                      alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>"
                      class="img-fluid rounded">
             </div>
@@ -102,7 +102,7 @@
                 <?php foreach ($relatedProducts as $related): ?>
                     <div class="col-md-3">
                         <div class="card h-100">
-                            <img src="images/<?php echo htmlspecialchars($related['AnhDaiDien']); ?>" 
+                            <img src="admin/uploads/<?php echo htmlspecialchars($related['AnhDaiDien']); ?>" 
                                  class="card-img-top" alt="<?php echo htmlspecialchars($related['TenSanPham']); ?>">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($related['TenSanPham']); ?></h5>
