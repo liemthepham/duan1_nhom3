@@ -54,7 +54,7 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="images/<?php echo htmlspecialchars($item['product']['AnhDaiDien']); ?>" 
+                                            <img src="admin/uploads/<?php echo htmlspecialchars($item['product']['AnhDaiDien']); ?>" 
                                                  alt="<?php echo htmlspecialchars($item['product']['TenSanPham']); ?>"
                                                  class="img-thumbnail" style="width: 100px; margin-right: 15px;">
                                             <div>

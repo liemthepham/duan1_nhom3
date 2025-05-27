@@ -170,7 +170,7 @@
             <?php foreach ($products as $product): // Sử dụng biến $products từ index.php ?>
                 <div class="col-md-3">
                     <div class="card h-100 product-card border-0 shadow-sm">
-                        <img src="images/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>" 
+                        <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>" 
                              class="card-img-top product-image" alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($product['TenSanPham']); ?></h5>

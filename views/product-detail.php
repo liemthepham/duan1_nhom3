@@ -51,7 +51,7 @@
         <div class="row">
             <!-- Product Image -->
             <div class="col-md-6">
-                <img src="images/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>" 
+                <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>" 
                      alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>"
                      class="img-fluid rounded">
             </div>
