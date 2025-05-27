@@ -4,10 +4,12 @@ require_once __DIR__ . '/../models/UserModel.php';
 class UserController
 {
     private $userModel;
+    private string    $viewRoot;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->viewRoot  = dirname(__DIR__) . '/views';
         //bảo vệ không cho user thường vào admin
         if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             header('Location: index.php?act=auth-login');
@@ -18,9 +20,17 @@ class UserController
     /** Danh sách User */
     public function index()
     {
-        $users = $this->userModel->get_list();
+        $q = trim($_GET['q'] ?? '');
+
+        // 2. Nếu có q, gọi search(), còn không gọi get_list()
+        if ($q !== '') {
+            $users = $this->userModel->search($q);
+        } else {
+            $users = $this->userModel->get_list();
+        }
+
         require __DIR__ . '/../views/layouts/layouts_top.php';
-        require __DIR__ . '/../views/User/list.php';
+        require_once $this->viewRoot . '/user/list.php';
         require __DIR__ . '/../views/layouts/layout_bottom.php';
     }
 

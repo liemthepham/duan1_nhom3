@@ -10,13 +10,17 @@
     <meta content="Themesbrand" name="author" />
 
     <!-- CSS -->
+
+</head>
+
+<body data-layout="vertical" data-sidebar="dark">
     <?php
     require_once "./views/layouts/libs_css.php";
     ?>
 
-</head>
 
-<body>
+
+
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -38,4 +42,45 @@
         <div class="main-content">
 
             <div class="page-content">
-                <div class="container-fluid"></div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <?php if (!empty($_SESSION['success_msg'])): ?>
+                                <div class="alert alert-success alert-dismissible fade show shadow-sm rounded" role="alert">
+                                    <i class="me-2 bi bi-check-circle-fill"></i>
+                                    <?= htmlspecialchars($_SESSION['success_msg']) ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <?php unset($_SESSION['success_msg']); ?>
+                            <?php endif; ?>
+
+                            <?php if (!empty($_SESSION['error_msg'])): ?>
+                                <div class="alert alert-danger alert-dismissible fade show shadow-sm rounded" role="alert">
+                                    <i class="me-2 bi bi-exclamation-triangle-fill"></i>
+                                    <?= htmlspecialchars($_SESSION['error_msg']) ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <?php unset($_SESSION['error_msg']); ?>
+                            <?php endif; ?>
+
+                        </div>
+                    </div>
+                    <?php if (!empty($_SESSION['success_msg'])): ?>
+                        <div class="row">
+                            <div class="col-12">
+                                <div
+                                    class="alert alert-success alert-dismissible fade show shadow-sm rounded"
+                                    role="alert">
+                                    <i class="me-2 bi bi-check-circle-fill"></i>
+                                    <?= htmlspecialchars($_SESSION['success_msg']) ?>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <?php unset($_SESSION['success_msg']); ?>
+                    <?php endif; ?>
+                </div>

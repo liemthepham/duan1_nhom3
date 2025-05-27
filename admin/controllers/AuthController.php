@@ -1,60 +1,92 @@
 <?php
 require_once __DIR__ . '/../models/UserModel.php';
 
-class AuthController {
+class AuthController
+{
     private $userModel;
+    private string $viewRoot;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->userModel = new UserModel();
+        $this->viewRoot   = dirname(__DIR__) . '/views';
     }
-
-    /** Hiển thị form đăng ký & xử lý đăng ký */
-    public function register() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // 1. Kiểm tra trùng username/email
-            $exists = $this->userModel->findByLogin($_POST['TenDangNhap']);
-            if ($exists) {
-                $error = "Tên đăng nhập hoặc email đã tồn tại.";
-            } else {
-                // 2. Tạo mới
-                $this->userModel->create($_POST);
-                header('Location: index.php?act=auth-login');
-                exit;
-            }
-        }
-        require __DIR__.'/../views/layouts/layouts_top.php';
-        require __DIR__.'/../views/Auth/register.php';
-        require __DIR__.'/../views/layouts/layout_bottom.php';
-    }
-
-    /** Hiển thị form login & xử lý login */
-    public function login() {
+    public function login()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $this->userModel->findByLogin($_POST['login']);
             if ($user && password_verify($_POST['password'], $user['MatKhau'])) {
                 // Lưu session
                 $_SESSION['user'] = [
-                  'id'        => $user['MaNguoiDung'],
-                  'name'      => $user['TenDangNhap'],
-                  'role'      => $user['VaiTro']
+                    'id'        => $user['MaNguoiDung'],
+                    'name'      => $user['TenDangNhap'],
+                    'role'      => $user['VaiTro']
                 ];
                 // Redirect: nếu admin thì vào admin, else front
                 if ($user['VaiTro'] === 'admin') {
-                  header('Location: index.php?act=dashboard');
+
+                    header('Location: index.php?act=dashboard');
                 } else {
-                  header('Location: ../index.php'); 
+                     $_SESSION['success_msg'] = '🎉 Đăng nhập thành công, chào mừng '.htmlspecialchars($user['TenDangNhap']).'!';
+                    header('Location: /duan1/');
                 }
                 exit;
             }
             $error = "Đăng nhập không thành công.";
         }
-        require __DIR__.'/../views/layouts/layouts_top.php';
-        require __DIR__.'/../views/Auth/login.php';
-        require __DIR__.'/../views/layouts/layout_bottom.php';
+        // include phần đầu
+        require_once $this->viewRoot . '/layouts/authtop.php';
+        // form login
+        require_once $this->viewRoot . '/auth/login.php';
+        // phần cuối
+        require_once $this->viewRoot . '/layouts/authbottom.php';
+    }
+    /** Hiển thị form đăng ký & xử lý đăng ký */
+    public function register()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $username = trim($_POST['TenDangNhap']);
+            $email    = trim($_POST['Email']);
+
+            // 1. Check user or email exists
+
+            $existsByUsername = $this->userModel->findByLogin($username);
+            $existsByEmail    = $email ? $this->userModel->findByEmail($email) : false;
+
+            if ($existsByUsername) {
+                $error = "Tên đăng nhập đã tồn tại.";
+            } elseif ($email && $existsByEmail) {
+                $error = "Email này đã được đăng ký.";
+            } else {
+                // 2. Thử tạo user, bắt exception nếu có lỗi
+                try {
+                    $this->userModel->create($_POST);
+                    header('Location: auth.php?act=auth-login');
+                    exit;
+                } catch (\PDOException $e) {
+                    // Nếu duplicate key
+                    if (strpos($e->getMessage(), '1062 Duplicate entry') !== false) {
+                        $error = 'Username hoặc Email đã tồn tại.';
+                    } else {
+                        // Log $e->getMessage() nếu cần
+                        $error = 'Có lỗi xảy ra, vui lòng thử lại sau.';
+                    }
+                }
+            }
+        }
+        require_once $this->viewRoot . '/layouts/authtop.php';
+        // form login
+        require_once $this->viewRoot . '/auth/register.php';
+        // phần cuối
+        require_once $this->viewRoot . '/layouts/authbottom.php';
     }
 
+
+
     /** Đăng xuất */
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
         header('Location: index.php?act=auth-login');
         exit;

@@ -56,7 +56,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDanhMuc" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDanhMuc">
-                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Danh mục sản phẩm</span>
+                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Admin</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarDanhMuc">
                         <ul class="nav nav-sm flex-column">
@@ -65,23 +65,16 @@
                                     Danh Sách Sản Phẩm
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="index.php?act=product-add" class="nav-link" data-key="t-nestable-list">
-                                    Thêm Mới Sản Phẩm
-                                </a>
-                            </li>
+                        
                             <!-- Danh mục -->
                             <li class="nav-item">
                                 <a href="index.php?act=category-list" class="nav-link">Danh Sách Danh Mục</a>
                                  </li>
-                            <li class="nav-item">
-                                 <a href="index.php?act=category-add" class="nav-link">Thêm Danh Mục</a>
-                            </li>
-                            <li class="nav-item">
-                                 <a href="index.php?act=user-list" class="nav-link">Quản Lý User</a>
-                            </li>
                         </ul>
                     </div>
+                </li>
+                <li class="nav-item">
+                                 <a href="index.php?act=user-list" class="nav-link">Quản Lý User</a>
                 </li>
 
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Bán hàng</span></li>

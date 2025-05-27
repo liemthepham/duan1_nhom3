@@ -31,6 +31,7 @@ class ProductController
         $categories = (new CategoryModel())->getAll();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (new ProductModel())->create($_POST, $_FILES['AnhDaiDien']);
+            $_SESSION['success_msg'] = '🎉 Thêm sản phẩm thành công!';
             header('Location: index.php?act=product-list');
             exit;
         }
@@ -59,6 +60,7 @@ class ProductController
         // 4. Nếu POST lên thì xử lý update
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->productModel->update($id, $_POST, $_FILES['AnhDaiDien']);
+            $_SESSION['success_msg'] = '✏️ Sửa sản phẩm thành công!';
             header('Location: index.php?act=product-list');
             exit;
         }
@@ -68,6 +70,24 @@ class ProductController
         require __DIR__ . '/../views/Product/edit.php';
         require __DIR__ . '/../views/layouts/layout_bottom.php';
     }
+    //detail
+    public function detail()
+    {
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        if (!$id) {
+            header('Location: index.php');
+            exit;
+        }
+        $prd = $this->productModel->find($id);
+        if (!$prd) {
+            echo "Sản phẩm không tồn tại";
+            exit;
+        }
+        require_once __DIR__ . '/../views/layouts/layouts_top.php';
+        require_once __DIR__ . '/../views/product/detail.php';
+        require_once __DIR__ . '/../views/layouts/layout_bottom.php';
+    }
+
 
     //delete
 
@@ -78,6 +98,7 @@ class ProductController
             die("ID không hợp lệ");
         }
         $this->productModel->delete($id);
+        $_SESSION['success_msg'] = '🗑️ Xóa sản phẩm thành công!';
         // Sau khi xóa, quay về danh sách
         header('Location: index.php?act=product-list');
         exit;

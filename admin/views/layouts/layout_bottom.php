@@ -53,7 +53,7 @@
     <?php
     require_once "./views/layouts/libs_js.php";
     ?>
-
+<script src="/duan1/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

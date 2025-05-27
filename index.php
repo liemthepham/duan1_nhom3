@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 require_once 'config/database.php';
 // require_once 'controllers/HomeController.php'; // Sẽ tạo lại sau
 require_once 'controllers/ProductController.php';
@@ -100,3 +101,4 @@ switch ($act) {
         echo "404 Not Found";
         break;
 }
+
