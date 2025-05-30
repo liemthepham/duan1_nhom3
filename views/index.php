@@ -8,13 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <link rel="stylesheet" href="/duan1//public/css/cusstom.css">
+    <link rel="stylesheet" href="public/css/cusstom.css">
     <style>
 
     </style>
 </head>
 
-<body>
+<body class=" d-flex flex-column min-vh-100">
+
 
     <?php
     $user = $_SESSION['user'] ?? null;
@@ -80,21 +81,27 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center"
                                 href="#" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle me-1"></i>
-                                <?= htmlspecialchars($user['TenDangNhap'] ?? $user['Email']) ?>
+                                <?php if (!empty($_SESSION['user'])): ?>
+                                    <i class="fas fa-user-circle me-1"></i>
+                                    <?= htmlspecialchars($_SESSION['user']['Email']) ?>
+                                <?php endif; ?>
+
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                                 <?php if (($user['VaiTro'] ?? '') === 'admin'): ?>
-                                    <li><a class="dropdown-item" href="admin/index.php">Dashboard Admin</a></li>
                                     <li>
-                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item" href="/duan1_nhom3/admin/index.php?act=dashboard">Dashboard Admin</a>
+
                                     </li>
-                                <?php endif; ?>
-                                <li><a class="dropdown-item" href="index.php?act=logout">Đăng xuất</a></li>
-                            </ul>
+
+                                    <hr class="dropdown-divider">
                         </li>
                     <?php endif; ?>
+                    <li><a class="dropdown-item" href="index.php?act=logout">Đăng xuất</a></li>
                 </ul>
+                </li>
+            <?php endif; ?>
+            </ul>
             </div>
         </div>
     </nav>

@@ -4,12 +4,13 @@ session_start();
 
 require_once 'config/database.php';
 // require_once 'controllers/HomeController.php'; // Sẽ tạo lại sau
-require_once 'controllers/ProductController.php';
+require_once 'controllers/FrontProductController.php';
+
 require_once 'controllers/CartController.php';
 require_once 'controllers/CheckoutController.php';
 require_once 'models/user.php';
 
-$productController = new ProductController($pdo);
+$productController = new FrontProductController($pdo);
 $cartController = new CartController();
 $checkoutController = new CheckoutController($pdo);
 // $homeController = new HomeController($pdo); // Sẽ tạo lại sau
@@ -48,6 +49,14 @@ switch ($act) {
 
         require_once 'views/index.php';
         break;
+
+
+
+    case 'products':
+        require_once __DIR__ . '/controllers/FrontProductController.php';
+        (new FrontProductController())->index();
+        break;
+
 
     case 'product-detail':
         // Hiển thị chi tiết sản phẩm

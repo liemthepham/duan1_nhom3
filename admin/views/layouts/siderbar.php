@@ -2,7 +2,7 @@
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
-        <a href="index.html" class="logo logo-dark">
+        <a href="index.php?act=dashboard" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="assets/images/logo-sm.png" alt="" height="22">
             </span>
@@ -11,7 +11,7 @@
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="index.html" class="logo logo-light">
+        <a href="index.php?act=dashboard" class="logo logo-light">
             <span class="logo-sm">
                 <img src="assets/images/logo-sm.png" alt="" height="22">
             </span>
@@ -48,37 +48,45 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-                <li class="menu-title"><span data-key="t-menu">Quản lý</span></li>
+                <li class="menu-title"><span data-key="t-menu">QUẢN LÝ</span></li>
+
+                <!-- Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#">
-                        <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
+                    <a class="nav-link" href="index.php?act=dashboard">
+                        <i class="ri-dashboard-2-line"></i> <span>Dashboards</span>
                     </a>
                 </li>
+
+                <!-- Danh Sách Sản Phẩm -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDanhMuc" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDanhMuc">
-                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Admin</span>
+                    <a class="nav-link" href="index.php?act=product-list">
+                        <i class="ri-shopping-bag-line"></i> <span>Danh Sách Sản Phẩm</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarDanhMuc">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="index.php?act=product-list" class="nav-link" data-key="t-sweet-alerts">
-                                    Danh Sách Sản Phẩm
-                                </a>
-                            </li>
-                        
-                            <!-- Danh mục -->
-                            <li class="nav-item">
-                                <a href="index.php?act=category-list" class="nav-link">Danh Sách Danh Mục</a>
-                                 </li>
-                        </ul>
-                    </div>
                 </li>
+
+                <!-- Danh Sách Danh Mục -->
                 <li class="nav-item">
-                                 <a href="index.php?act=user-list" class="nav-link">Quản Lý User</a>
+                    <a class="nav-link" href="index.php?act=category-list">
+                        <i class="ri-list-check"></i> <span>Danh Sách Danh Mục</span>
+                    </a>
                 </li>
 
-                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Bán hàng</span></li>
+                <!-- Quản Lý User -->
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?act=user-list">
+                        <i class="ri-user-line"></i> <span>Quản Lý User</span>
+                    </a>
+                </li>
 
+                <li class="menu-title"><i class="ri-more-fill"></i> <span>BÁN HÀNG</span></li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="index.php?act=order-list">
+                        <i class="ri-shopping-bag-line"></i><span>Đơn hàng</span> 
+                    </a>
+                </li>
+        
+
+ 
             </ul>
         </div>
         <!-- Sidebar -->

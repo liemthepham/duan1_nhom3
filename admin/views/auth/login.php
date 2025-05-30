@@ -1,12 +1,12 @@
-<?php ?>
-<img src="/duan1/uploads/logologin.png"  class="auth-logo" alt="Logo">
-<h4 class="mb-4">Chào mừng trở lại!</h4>
+
+<!-- <img src="/duan1/uploads/logologin.png" class="auth-logo" alt="Logo"> -->
+<h4 class="mb-4">Chào mừng trở lại TechStore!</h4>
 
 <?php if (!empty($error)): ?>
   <div class="alert alert-danger"><?= $error ?></div>
 <?php endif; ?>
 
-<form method="post" class="text-start">
+<form action="index.php?act=auth-login" method="post" class="text-start">
   <div class="mb-3">
     <label class="form-label">Email hoặc tên đăng nhập</label>
     <input type="text" name="login" class="form-control" placeholder="Nhập email hoặc username" required>
