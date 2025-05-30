@@ -1,11 +1,72 @@
 <?php
-class ProductController {
+require_once 'commons/env.php';
+require_once 'commons/function.php';
+class FrontProductController {
     private $pdo;
 
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
+    public function __construct() {
+        
+        $this->pdo = connectDB();
     }
+//index
+ public function index() {
+        // 1. Lấy filter từ URL
+        $keyword   = trim($_GET['keyword']   ?? '');
+        $category  = $_GET['category']       ?? '';
+        $price_min = (float)($_GET['price_min'] ?? 0);
+        $price_max = (float)($_GET['price_max'] ?? 0);
 
+        // 2. Nhóm điều kiện
+        $group1 = [];   // keyword + price là OR
+        $params = [];
+
+        if ($keyword !== '') {
+            $group1[]        = "TenSanPham LIKE :kw";
+            $params[':kw']   = "%{$keyword}%";
+        }
+        if ($price_min > 0) {
+            $group1[]        = "Gia >= :min";
+            $params[':min']  = $price_min;
+        }
+        if ($price_max > 0) {
+            $group1[]        = "Gia <= :max";
+            $params[':max']  = $price_max;
+        }
+
+        $group2 = [];   // category là AND bắt buộc
+        if ($category !== '') {
+            $group2[]          = "MaDanhMuc = :cat";
+            $params[':cat']    = $category;
+        }
+
+        // 3. Kết hợp WHERE
+        $clauses = [];
+        if (count($group1)) {
+            $clauses[] = '(' . implode(' OR ', $group1) . ')';
+        }
+        if (count($group2)) {
+            $clauses[] = implode(' AND ', $group2);
+        }
+
+        $where = '';
+        if (count($clauses)) {
+            $where = 'WHERE ' . implode(' AND ', $clauses);
+        }
+
+        // 4. Thực thi truy vấn chính
+        $sql  = "SELECT * FROM sanpham $where";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 5. Lấy để show dropdown Danh mục
+        $stmt2 = $this->pdo->query("SELECT MaDanhMuc, TenDanhMuc FROM danhmuc");
+        $cats   = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+        // 6. Render view, truyền $products, $cats và các filter cũ
+        require_once __DIR__ . '/../views/sanpham/index.php';
+    }
+//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     public function show($id) {
         // Lấy thông tin chi tiết sản phẩm
         $stmt = $this->pdo->prepare("

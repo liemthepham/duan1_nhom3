@@ -10,7 +10,7 @@ class CategoryController
     public function __construct()
     {
         $this->model = new CategoryModel();
-         $this->categoryModel = new CategoryModel();
+        $this->categoryModel = new CategoryModel();
         $this->productModel  = new ProductModel();
         if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             header('Location: index.php?act=auth-login');
@@ -48,29 +48,29 @@ class CategoryController
         require __DIR__ . '/../views/Product/danhmuc/edit.php';
     }
     //xóa
-   public function delete()
-{
-    $id = $_GET['id'] ?? null;
-    if (!$id) {
-        $_SESSION['error_msg'] = 'ID không hợp lệ.';
+    public function delete()
+    {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            $_SESSION['error_msg'] = 'ID không hợp lệ.';
+            header('Location: index.php?act=category-list');
+            exit;
+        }
+
+        // Đếm số SP
+        $count = $this->productModel->countByCategory((int)$id);
+        if ($count > 0) {
+            $_SESSION['error_msg'] = "Không thể xóa: còn $count sản phẩm.";
+            header('Location: index.php?act=category-list');
+            exit;
+        }
+
+        // Xóa nếu OK
+        $this->categoryModel->delete((int)$id);
+        $_SESSION['success_msg'] = 'Xóa thành công.';
         header('Location: index.php?act=category-list');
         exit;
     }
-
-    // Đếm số SP
-    $count = $this->productModel->countByCategory((int)$id);
-    if ($count > 0) {
-        $_SESSION['error_msg'] = "Không thể xóa: còn $count sản phẩm.";
-        header('Location: index.php?act=category-list');
-        exit;
-    }
-
-    // Xóa nếu OK
-    $this->categoryModel->delete((int)$id);
-    $_SESSION['success_msg'] = 'Xóa thành công.';
-    header('Location: index.php?act=category-list');
-    exit;
-}
 
 
 
