@@ -21,28 +21,28 @@ class FrontProductController {
         $params = [];
 
         if ($keyword !== '') {
-            $group1[]        = "TenSanPham LIKE :kw";
+            $group1[]        = "s.TenSanPham LIKE :kw";
             $params[':kw']   = "%{$keyword}%";
         }
         if ($price_min > 0) {
-            $group1[]        = "Gia >= :min";
+            $group1[]        = "s.Gia >= :min";
             $params[':min']  = $price_min;
         }
         if ($price_max > 0) {
-            $group1[]        = "Gia <= :max";
+            $group1[]        = "s.Gia <= :max";
             $params[':max']  = $price_max;
         }
 
         $group2 = [];   // category là AND bắt buộc
         if ($category !== '') {
-            $group2[]          = "MaDanhMuc = :cat";
+            $group2[]          = "s.MaDanhMuc = :cat";
             $params[':cat']    = $category;
         }
 
         // 3. Kết hợp WHERE
         $clauses = [];
         if (count($group1)) {
-            $clauses[] = '(' . implode(' OR ', $group1) . ')';
+            $clauses[] = '(' . implode(' AND ', $group1) . ')';
         }
         if (count($group2)) {
             $clauses[] = implode(' AND ', $group2);
@@ -54,7 +54,11 @@ class FrontProductController {
         }
 
         // 4. Thực thi truy vấn chính
-        $sql  = "SELECT * FROM sanpham $where";
+        $sql  = "SELECT s.*, d.TenDanhMuc 
+                FROM sanpham s 
+                JOIN danhmuc d ON s.MaDanhMuc = d.MaDanhMuc 
+                $where 
+                ORDER BY s.NgayTao DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
