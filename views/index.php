@@ -7,14 +7,10 @@
     <title>Cửa hàng điện tử</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <link rel="stylesheet" href="public/css/cusstom.css">
-    <style>
-
-    </style>
 </head>
 
-<body class=" d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100">
 
 
     <?php
@@ -167,14 +163,33 @@
 
     <!-- DANH MỤC -->
     <div class="container py-5">
-        <h2 class="text-center mb-4">Danh mục sản phẩm</h2>
+        <h2 class="section-title text-center">Danh Mục Sản Phẩm</h2>
         <div class="row g-4">
-            <?php
-            foreach ($categories as $cat): ?>
+            <?php foreach ($categories as $cat): ?>
                 <div class="col-md-3">
                     <div class="category-item text-center">
-                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" class="text-decoration-none text-dark">
-                            <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
+                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" 
+                           class="text-decoration-none text-dark">
+                            <?php
+                            $icon = 'mobile-alt';
+                            switch(strtolower($cat['TenDanhMuc'])) {
+                                case 'ốp lưng':
+                                    $icon = 'mobile-screen-button';
+                                    break;
+                                case 'điện thoại':
+                                    $icon = 'mobile';
+                                    break;
+                                case 'laptop':
+                                    $icon = 'laptop';
+                                    break;
+                                case 'phụ kiện':
+                                    $icon = 'headphones';
+                                    break;
+                            }
+                            ?>
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-<?php echo $icon; ?> fa-2x"></i>
+                            </div>
                             <h5><?php echo htmlspecialchars($cat['TenDanhMuc']); ?></h5>
                         </a>
                     </div>
@@ -183,40 +198,107 @@
         </div>
     </div>
 
-    <!-- SẢN PHẨM BÁN CHẠY -->
-    <div class="container mb-5">
-        <h2 class="text-center mb-4">Sản phẩm bán chạy</h2>
-        <div class="row g-4">
-            <?php foreach ($products as $product): ?>
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm product-card">
-                        <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>"
-                            class="card-img-top product-image"
-                            alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title mb-2">
-                                <?php echo htmlspecialchars($product['TenSanPham']); ?>
-                            </h5>
-                            <p class="text-danger fw-bold mb-3">
-                                <?php echo number_format($product['Gia']); ?> VNĐ
-                            </p>
-                            <div class="mt-auto d-flex justify-content-between">
-                                <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>"
-                                    class="btn btn-primary btn-sm">Chi tiết</a>
-                                <form action="index.php?act=add-to-cart" method="POST" style="display:inline;">
-                                    <input type="hidden" name="product_id"
-                                        value="<?php echo $product['MaSanPham']; ?>">
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                                    </button>
-                                </form>
+    <!-- FORM LỌC SẢN PHẨM -->
+    <div class="container py-4">
+        <div class="card filter-card">
+            <div class="card-body">
+                <form action="index.php" method="GET" class="row g-3 align-items-end">
+                    <input type="hidden" name="act" value="products">
+                    
+                    <div class="col-md-4">
+                        <label for="keyword" class="form-label">Tìm kiếm</label>
+                        <input type="text" class="form-control" id="keyword" name="keyword" 
+                               placeholder="Nhập tên sản phẩm..." 
+                               value="<?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?>">
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="price_min" class="form-label">Giá từ</label>
+                        <input type="number" class="form-control" id="price_min" name="price_min" 
+                               placeholder="VNĐ" min="0"
+                               value="<?php echo htmlspecialchars($_GET['price_min'] ?? ''); ?>">
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="price_max" class="form-label">Đến</label>
+                        <input type="number" class="form-control" id="price_max" name="price_max" 
+                               placeholder="VNĐ" min="0"
+                               value="<?php echo htmlspecialchars($_GET['price_max'] ?? ''); ?>">
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search"></i> Lọc
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DANH SÁCH SẢN PHẨM -->
+    <div class="container py-5">
+        <h2 class="section-title text-center">
+            <?php if ($selected_category_name): ?>
+                Sản Phẩm <?php echo htmlspecialchars($selected_category_name); ?>
+            <?php else: ?>
+                Sản Phẩm Bán Chạy Nhất
+            <?php endif; ?>
+        </h2>
+
+        <?php if ($category_id): ?>
+            <div class="text-center mb-4">
+                <a href="index.php?act=home" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Xem tất cả sản phẩm
+                </a>
+            </div>
+        <?php endif; ?>
+
+        <?php if (empty($products)): ?>
+            <div class="alert alert-info">
+                Không có sản phẩm nào trong danh mục này.
+            </div>
+        <?php else: ?>
+            <div class="row g-4">
+                <?php foreach ($products as $product): ?>
+                    <div class="col-md-3">
+                        <div class="card h-100 product-card">
+                            <div class="product-image">
+                                <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>"
+                                    class="card-img-top"
+                                    alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="product-title"><?php echo htmlspecialchars($product['TenSanPham']); ?></h5>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="product-price text-danger fw-bold mb-0">
+                                        <?php echo number_format($product['Gia']); ?> VNĐ
+                                    </p>
+                                    <?php if (!$category_id): ?>
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-fire"></i> Bán chạy
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="mt-auto d-flex gap-2">
+                                    <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>"
+                                        class="btn btn-outline-primary flex-grow-1">
+                                        <i class="fas fa-info-circle"></i> Chi tiết
+                                    </a>
+                                    <form action="index.php?act=add-to-cart" method="POST" class="flex-grow-1">
+                                        <input type="hidden" name="product_id"
+                                            value="<?php echo $product['MaSanPham']; ?>">
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-
-        </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <!-- Pagination -->
@@ -248,22 +330,38 @@
 
     <!-- SẢN PHẨM GỢI Ý -->
     <div class="container mb-5">
-        <h2 class="text-center mb-4">Sản phẩm gợi ý</h2>
+        <h2 class="section-title text-center">Sản Phẩm Gợi Ý Cho Bạn</h2>
         <div class="row g-4">
-            <?php /* Cần lấy dữ liệu sản phẩm gợi ý từ database */ ?>
-            <?php for ($i = 1; $i <= 4; $i++): // Tạm thời hiển thị dữ liệu mẫu 
-            ?>
+            <?php foreach ($suggestedProducts as $product): ?>
                 <div class="col-md-3">
-                    <div class="card h-100 product-card border-0 shadow-sm">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWZ5IzzJCuIb0UjqEcCBcQZoivGa4zAy6A-g&s" class="card-img-top" alt="Sản phẩm">
+                    <div class="card h-100 product-card">
+                        <div class="product-image">
+                            <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>"
+                                class="card-img-top"
+                                alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
+                        </div>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Samsung Galaxy S23 Ultra</h5>
-                            <p class="text-danger fw-bold">24.990.000đ</p>
-                            <a href="#" class="btn btn-outline-primary mt-auto">Mua ngay</a>
+                            <h5 class="product-title"><?php echo htmlspecialchars($product['TenSanPham']); ?></h5>
+                            <p class="product-price text-danger fw-bold mb-3">
+                                <?php echo number_format($product['Gia']); ?> VNĐ
+                            </p>
+                            <div class="mt-auto d-flex gap-2">
+                                <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>"
+                                    class="btn btn-outline-primary flex-grow-1">
+                                    <i class="fas fa-info-circle"></i> Chi tiết
+                                </a>
+                                <form action="index.php?act=add-to-cart" method="POST" class="flex-grow-1">
+                                    <input type="hidden" name="product_id"
+                                        value="<?php echo $product['MaSanPham']; ?>">
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            <?php endfor; ?>
+            <?php endforeach; ?>
         </div>
     </div>
 

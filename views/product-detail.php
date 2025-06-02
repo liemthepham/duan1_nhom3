@@ -97,7 +97,7 @@
 
         <!-- Related Products -->
         <div class="mt-5">
-            <h3 class="mb-4">Sản phẩm liên quan</h3>
+            <h3 class="section-title text-center">Sản phẩm liên quan</h3>
             <div class="row">
                 <?php foreach ($relatedProducts as $related): ?>
                     <div class="col-md-3">

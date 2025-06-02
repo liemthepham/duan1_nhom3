@@ -5,7 +5,7 @@
     <div class="container my-5">
 
       <!-- Tiêu đề Trang -->
-      <h2 class="mb-4">Danh sách sản phẩm</h2>
+      <h2 class="section-title text-center">Danh sách sản phẩm</h2>
 
       <!-- FILTER CARD -->
       <div class="filter-card mb-5 p-4 rounded shadow-sm">
