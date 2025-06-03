@@ -8,11 +8,13 @@ require_once 'controllers/FrontProductController.php';
 
 require_once 'controllers/CartController.php';
 require_once 'controllers/CheckoutController.php';
+require_once 'models/user.php';
+
 
 $productController = new FrontProductController($pdo);
 $cartController = new CartController();
 $checkoutController = new CheckoutController($pdo);
-$categoryController = new CategoryController();
+// $categoryController = new CategoryController();
 // $homeController = new HomeController($pdo); // Sẽ tạo lại sau
 
 $act = $_GET['act'] ?? 'home';
