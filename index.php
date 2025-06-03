@@ -198,7 +198,6 @@ switch ($act) {
             if ($user) {
                 // Lưu session
                 $_SESSION['user'] = $user;
-
                 // Redirect theo vai trò
                 if ($user['VaiTro'] === 'admin') {
                     header('Location: admin/');

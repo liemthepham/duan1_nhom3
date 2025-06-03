@@ -12,10 +12,6 @@ class CategoryController
         $this->model = new CategoryModel();
         $this->categoryModel = new CategoryModel();
         $this->productModel  = new ProductModel();
-        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: index.php?act=auth-login');
-            exit;
-        }
     }
 
     // Hiện form và xử lý POST

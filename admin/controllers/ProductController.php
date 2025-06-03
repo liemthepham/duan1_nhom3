@@ -10,11 +10,6 @@ class ProductController
     {
         $this->productModel = new ProductModel();
         $this->categoryModel = new CategoryModel();
-        //bảo vệ không cho user thường vào admin
-        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: index.php?act=auth-login');
-            exit;
-        }
     }
 
     public function index()

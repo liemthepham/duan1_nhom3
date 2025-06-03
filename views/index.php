@@ -47,18 +47,6 @@
                             </span>
                         <?php endif; ?>
                     </li>
-                    <?php if (!empty($_SESSION['flash'])): ?>
-                        <?php
-                        $f = $_SESSION['flash'];
-                        unset($_SESSION['flash']);
-                        ?>
-                        <div class="container mt-3">
-                            <div class="alert alert-<?= $f['type'] ?> alert-dismissible fade show" role="alert">
-                                <?= htmlspecialchars($f['message']) ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
                     <!-- nếu chưa login -->
                     <?php if (!$user): ?>
                         <li class="nav-item d-flex">
@@ -77,11 +65,9 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center"
                                 href="#" id="userMenu" data-bs-toggle="dropdown">
-                                <?php if (!empty($_SESSION['user'])): ?>
-                                    <i class="fas fa-user-circle me-1"></i>
-                                    <?= htmlspecialchars($_SESSION['user']['Email']) ?>
+                                <?php if (!empty($_SESSION['user']['email'])): ?>
+                                    <?= htmlspecialchars($_SESSION['user']['email']) ?>
                                 <?php endif; ?>
-
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                                 <?php if (($user['VaiTro'] ?? '') === 'admin'): ?>
@@ -168,11 +154,11 @@
             <?php foreach ($categories as $cat): ?>
                 <div class="col-md-3">
                     <div class="category-item text-center">
-                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" 
-                           class="text-decoration-none text-dark">
+                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>"
+                            class="text-decoration-none text-dark">
                             <?php
                             $icon = 'mobile-alt';
-                            switch(strtolower($cat['TenDanhMuc'])) {
+                            switch (strtolower($cat['TenDanhMuc'])) {
                                 case 'ốp lưng':
                                     $icon = 'mobile-screen-button';
                                     break;
@@ -204,28 +190,28 @@
             <div class="card-body">
                 <form action="index.php" method="GET" class="row g-3 align-items-end">
                     <input type="hidden" name="act" value="products">
-                    
+
                     <div class="col-md-4">
                         <label for="keyword" class="form-label">Tìm kiếm</label>
-                        <input type="text" class="form-control" id="keyword" name="keyword" 
-                               placeholder="Nhập tên sản phẩm..." 
-                               value="<?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?>">
+                        <input type="text" class="form-control" id="keyword" name="keyword"
+                            placeholder="Nhập tên sản phẩm..."
+                            value="<?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?>">
                     </div>
-                    
+
                     <div class="col-md-3">
                         <label for="price_min" class="form-label">Giá từ</label>
-                        <input type="number" class="form-control" id="price_min" name="price_min" 
-                               placeholder="VNĐ" min="0"
-                               value="<?php echo htmlspecialchars($_GET['price_min'] ?? ''); ?>">
+                        <input type="number" class="form-control" id="price_min" name="price_min"
+                            placeholder="VNĐ" min="0"
+                            value="<?php echo htmlspecialchars($_GET['price_min'] ?? ''); ?>">
                     </div>
-                    
+
                     <div class="col-md-3">
                         <label for="price_max" class="form-label">Đến</label>
-                        <input type="number" class="form-control" id="price_max" name="price_max" 
-                               placeholder="VNĐ" min="0"
-                               value="<?php echo htmlspecialchars($_GET['price_max'] ?? ''); ?>">
+                        <input type="number" class="form-control" id="price_max" name="price_max"
+                            placeholder="VNĐ" min="0"
+                            value="<?php echo htmlspecialchars($_GET['price_max'] ?? ''); ?>">
                     </div>
-                    
+
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="fas fa-search"></i> Lọc
