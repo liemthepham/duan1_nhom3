@@ -5,11 +5,6 @@ class CategoryModel
     public function __construct()
     {
         $this->conn = connectDB();
-        //bảo vệ không cho user thường vào admin
-        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: index.php?act=auth-login');
-            exit;
-        }
     }
 
     // 1. Lấy danh sách (có phân cấp)

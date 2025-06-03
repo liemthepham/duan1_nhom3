@@ -14,11 +14,14 @@
     </style>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
+
+
 
     <?php
     $user = $_SESSION['user'] ?? null;
     ?>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.php?act=home">
@@ -50,18 +53,6 @@
                             </span>
                         <?php endif; ?>
                     </li>
-                    <?php if (!empty($_SESSION['flash'])): ?>
-                        <?php
-                        $f = $_SESSION['flash'];
-                        unset($_SESSION['flash']);
-                        ?>
-                        <div class="container mt-3">
-                            <div class="alert alert-<?= $f['type'] ?> alert-dismissible fade show" role="alert">
-                                <?= htmlspecialchars($f['message']) ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
                     <!-- nếu chưa login -->
                     <?php if (!$user): ?>
                         <li class="nav-item d-flex">
@@ -80,21 +71,25 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center"
                                 href="#" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle me-1"></i>
-                                <?= htmlspecialchars($user['TenDangNhap'] ?? $user['Email']) ?>
+                                <?php if (!empty($_SESSION['user']['email'])): ?>
+                                    <?= htmlspecialchars($_SESSION['user']['email']) ?>
+                                <?php endif; ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                                 <?php if (($user['VaiTro'] ?? '') === 'admin'): ?>
-                                    <li><a class="dropdown-item" href="admin/index.php">Dashboard Admin</a></li>
                                     <li>
-                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item" href="/duan1_nhom3/admin/index.php?act=dashboard">Dashboard Admin</a>
+
                                     </li>
-                                <?php endif; ?>
-                                <li><a class="dropdown-item" href="index.php?act=logout">Đăng xuất</a></li>
-                            </ul>
+
+                                    <hr class="dropdown-divider">
                         </li>
                     <?php endif; ?>
+                    <li><a class="dropdown-item" href="index.php?act=logout">Đăng xuất</a></li>
                 </ul>
+                </li>
+            <?php endif; ?>
+            </ul>
             </div>
         </div>
     </nav>
@@ -166,8 +161,30 @@
             foreach ($categories as $cat): ?>
                 <div class="col-md-3">
                     <div class="category-item text-center">
-                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" class="text-decoration-none text-dark">
-                            <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
+
+                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>"
+                            class="text-decoration-none text-dark">
+                            <?php
+                            $icon = 'mobile-alt';
+                            switch (strtolower($cat['TenDanhMuc'])) {
+                                case 'ốp lưng':
+                                    $icon = 'mobile-screen-button';
+                                    break;
+                                case 'điện thoại':
+                                    $icon = 'mobile';
+                                    break;
+                                case 'laptop':
+                                    $icon = 'laptop';
+                                    break;
+                                case 'phụ kiện':
+                                    $icon = 'headphones';
+                                    break;
+                            }
+                            ?>
+                            <div class="category-icon mb-3">
+                                <i class="fas fa-<?php echo $icon; ?> fa-2x"></i>
+                            </div>
+
                             <h5><?php echo htmlspecialchars($cat['TenDanhMuc']); ?></h5>
                         </a>
                     </div>
@@ -176,40 +193,107 @@
         </div>
     </div>
 
-    <!-- SẢN PHẨM BÁN CHẠY -->
-    <div class="container mb-5">
-        <h2 class="text-center mb-4">Sản phẩm bán chạy</h2>
-        <div class="row g-4">
-            <?php foreach ($products as $product): ?>
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm product-card">
-                        <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>"
-                            class="card-img-top product-image"
-                            alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title mb-2">
-                                <?php echo htmlspecialchars($product['TenSanPham']); ?>
-                            </h5>
-                            <p class="text-danger fw-bold mb-3">
-                                <?php echo number_format($product['Gia']); ?> VNĐ
-                            </p>
-                            <div class="mt-auto d-flex justify-content-between">
-                                <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>"
-                                    class="btn btn-primary btn-sm">Chi tiết</a>
-                                <form action="index.php?act=add-to-cart" method="POST" style="display:inline;">
-                                    <input type="hidden" name="product_id"
-                                        value="<?php echo $product['MaSanPham']; ?>">
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                                    </button>
-                                </form>
+    <!-- FORM LỌC SẢN PHẨM -->
+    <div class="container py-4">
+        <div class="card filter-card">
+            <div class="card-body">
+                <form action="index.php" method="GET" class="row g-3 align-items-end">
+                    <input type="hidden" name="act" value="products">
+
+                    <div class="col-md-4">
+                        <label for="keyword" class="form-label">Tìm kiếm</label>
+                        <input type="text" class="form-control" id="keyword" name="keyword"
+                            placeholder="Nhập tên sản phẩm..."
+                            value="<?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?>">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="price_min" class="form-label">Giá từ</label>
+                        <input type="number" class="form-control" id="price_min" name="price_min"
+                            placeholder="VNĐ" min="0"
+                            value="<?php echo htmlspecialchars($_GET['price_min'] ?? ''); ?>">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="price_max" class="form-label">Đến</label>
+                        <input type="number" class="form-control" id="price_max" name="price_max"
+                            placeholder="VNĐ" min="0"
+                            value="<?php echo htmlspecialchars($_GET['price_max'] ?? ''); ?>">
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search"></i> Lọc
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DANH SÁCH SẢN PHẨM -->
+    <div class="container py-5">
+        <h2 class="section-title text-center">
+            <?php if ($selected_category_name): ?>
+                Sản Phẩm <?php echo htmlspecialchars($selected_category_name); ?>
+            <?php else: ?>
+                Sản Phẩm Bán Chạy Nhất
+            <?php endif; ?>
+        </h2>
+
+        <?php if ($category_id): ?>
+            <div class="text-center mb-4">
+                <a href="index.php?act=home" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Xem tất cả sản phẩm
+                </a>
+            </div>
+        <?php endif; ?>
+
+        <?php if (empty($products)): ?>
+            <div class="alert alert-info">
+                Không có sản phẩm nào trong danh mục này.
+            </div>
+        <?php else: ?>
+            <div class="row g-4">
+                <?php foreach ($products as $product): ?>
+                    <div class="col-md-3">
+                        <div class="card h-100 product-card">
+                            <div class="product-image">
+                                <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>"
+                                    class="card-img-top"
+                                    alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="product-title"><?php echo htmlspecialchars($product['TenSanPham']); ?></h5>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="product-price text-danger fw-bold mb-0">
+                                        <?php echo number_format($product['Gia']); ?> VNĐ
+                                    </p>
+                                    <?php if (!$category_id): ?>
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-fire"></i> Bán chạy
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="mt-auto d-flex gap-2">
+                                    <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>"
+                                        class="btn btn-outline-primary flex-grow-1">
+                                        <i class="fas fa-info-circle"></i> Chi tiết
+                                    </a>
+                                    <form action="index.php?act=add-to-cart" method="POST" class="flex-grow-1">
+                                        <input type="hidden" name="product_id"
+                                            value="<?php echo $product['MaSanPham']; ?>">
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-
-        </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <!-- Pagination -->
@@ -241,49 +325,43 @@
 
     <!-- SẢN PHẨM GỢI Ý -->
     <div class="container mb-5">
-        <h2 class="text-center mb-4">Sản phẩm gợi ý</h2>
+        <h2 class="section-title text-center">Sản Phẩm Gợi Ý Cho Bạn</h2>
         <div class="row g-4">
-            <?php /* Cần lấy dữ liệu sản phẩm gợi ý từ database */ ?>
-            <?php for ($i = 1; $i <= 4; $i++): // Tạm thời hiển thị dữ liệu mẫu 
-            ?>
+            <?php foreach ($suggestedProducts as $product): ?>
                 <div class="col-md-3">
-                    <div class="card h-100 product-card border-0 shadow-sm">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWZ5IzzJCuIb0UjqEcCBcQZoivGa4zAy6A-g&s" class="card-img-top" alt="Sản phẩm">
+                    <div class="card h-100 product-card">
+                        <div class="product-image">
+                            <img src="admin/uploads/<?php echo htmlspecialchars($product['AnhDaiDien']); ?>"
+                                class="card-img-top"
+                                alt="<?php echo htmlspecialchars($product['TenSanPham']); ?>">
+                        </div>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Samsung Galaxy S23 Ultra</h5>
-                            <p class="text-danger fw-bold">24.990.000đ</p>
-                            <a href="#" class="btn btn-outline-primary mt-auto">Mua ngay</a>
+                            <h5 class="product-title"><?php echo htmlspecialchars($product['TenSanPham']); ?></h5>
+                            <p class="product-price text-danger fw-bold mb-3">
+                                <?php echo number_format($product['Gia']); ?> VNĐ
+                            </p>
+                            <div class="mt-auto d-flex gap-2">
+                                <a href="index.php?act=product-detail&id=<?php echo $product['MaSanPham']; ?>"
+                                    class="btn btn-outline-primary flex-grow-1">
+                                    <i class="fas fa-info-circle"></i> Chi tiết
+                                </a>
+                                <form action="index.php?act=add-to-cart" method="POST" class="flex-grow-1">
+                                    <input type="hidden" name="product_id"
+                                        value="<?php echo $product['MaSanPham']; ?>">
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            <?php endfor; ?>
+            <?php endforeach; ?>
         </div>
     </div>
 
     <!-- FOOTER -->
-    <footer class="pt-5 pb-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Về chúng tôi</h5>
-                    <p>Cửa hàng điện tử uy tín, chất lượng</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Liên hệ</h5>
-                    <p>Email: contact@example.com</p>
-                    <p>Điện thoại: 0123 456 789</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Theo dõi chúng tôi</h5>
-                    <div class="d-flex">
-                        <a href="#" class="text-light me-2"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-light me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'views/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
