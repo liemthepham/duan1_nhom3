@@ -5,7 +5,7 @@ session_start();
 $act = $_GET['act'] ?? 'dashboard';
 $publicRoutes = ['auth-login', 'auth-register'];
 
-if (!in_array($act, $publicRoutes) && empty($_SESSION['is_admin'])) {
+if (!in_array($act, $publicRoutes) && $_SESSION['user']['VaiTro'] !="admin") {
   // chưa login admin
   header('Location: /duan1_nhom3/admin/index.php?act=auth-login');
   exit;

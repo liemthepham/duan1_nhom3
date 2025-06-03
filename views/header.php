@@ -47,18 +47,6 @@
                             </span>
                         <?php endif; ?>
                     </li>
-                    <?php if (!empty($_SESSION['flash'])): ?>
-                        <?php
-                        $f = $_SESSION['flash'];
-                        unset($_SESSION['flash']);
-                        ?>
-                        <div class="container mt-3">
-                            <div class="alert alert-<?= $f['type'] ?> alert-dismissible fade show" role="alert">
-                                <?= htmlspecialchars($f['message']) ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
                     <!-- nếu chưa login -->
                     <?php if (!$user): ?>
                         <li class="nav-item d-flex">

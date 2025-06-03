@@ -133,7 +133,7 @@ class CheckoutController
             // 5. Lưu thông tin đơn hàng vào bảng donhang
             $stmt = $this->pdo->prepare("
                 INSERT INTO donhang (MaNguoiDung, TenNguoiNhan, SdtNguoiNhan, DiaChiNguoiNhan, GhiChu, TongTien, NgayDatHang, PhuongThucThanhToan, TrangThaiDonHang)
-                VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?)  
             ");
             $stmt->execute([
                 $userId,

@@ -10,11 +10,6 @@ class UserController
     {
         $this->userModel = new UserModel();
         $this->viewRoot  = dirname(__DIR__) . '/views';
-        //bảo vệ không cho user thường vào admin
-        if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: index.php?act=auth-login');
-            exit;
-        }
     }
 
     /** Danh sách User */

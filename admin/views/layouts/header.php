@@ -59,13 +59,9 @@
                         <!-- item-->
                         <h6 class="dropdown-header">Welcome ADMIN!</h6>
                         <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="auth-logout-basic.html"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <a class="dropdown-item" href="index?act=auth-login"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
                 </div>
-                <!--logout--><a href="auth.php?auth.php?act=auth-login"
-                    class="btn btn-sm btn-outline-danger ms-2">
-                    <i class="ri-logout-box-line"></i>
-                </a>
             </div>
         </div>
     </div>
