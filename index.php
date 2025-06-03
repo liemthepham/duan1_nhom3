@@ -8,11 +8,11 @@ require_once 'controllers/FrontProductController.php';
 
 require_once 'controllers/CartController.php';
 require_once 'controllers/CheckoutController.php';
-require_once 'models/user.php';
 
 $productController = new FrontProductController($pdo);
 $cartController = new CartController();
 $checkoutController = new CheckoutController($pdo);
+$categoryController = new CategoryController();
 // $homeController = new HomeController($pdo); // Sẽ tạo lại sau
 
 $act = $_GET['act'] ?? 'home';
@@ -169,14 +169,7 @@ switch ($act) {
         $checkoutController->orderSuccess();
         break;
 
-        // Thêm các case cho đăng nhập/đăng ký/thanh toán sau
-        //case login:
-        if (isset($_GET['act']) && $_GET['act'] === 'logout') {
-            session_destroy();
-            header('Location: index.php?act=login');
 
-            exit;
-        }
 
     case 'login':
         // Nếu đã login rồi, chuyển về home
@@ -300,6 +293,7 @@ switch ($act) {
             header('Location: index.php?act=login&registered=1');
         }
         exit;
+
 
     default:
         // Trang 404
