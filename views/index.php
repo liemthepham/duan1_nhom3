@@ -7,72 +7,11 @@
     <title>Cửa hàng điện tử</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<<<<<<< HEAD
 
     <link rel="stylesheet" href="/duan1//public/css/cusstom.css">
     <style>
-<<<<<<< HEAD
 
-=======
-        .product-card {
-            transition: transform 0.3s;
-            margin-bottom: 20px;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-image {
-            height: 200px;
-            object-fit: cover;
-        }
-        .price {
-            color: #e44d26;
-            font-weight: bold;
-        }
-        /* Custom CSS for banner image */
-        .banner-img {
-            width: 85%; /* Ensure it takes full width of its container */
-            max-height: 400px; /* Set a maximum height */
-            object-fit: cover; /* Crop the image to cover the area without distortion */
-        }
-        /* Custom CSS for banner section spacing */
-        .banner-section {
-            margin-top: 10px; /* Adjust this value for desired spacing from the top */
-        }
-        .category-item {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-        .category-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-        .category-item i {
-            color: #007bff;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .category-item h5 {
-            margin: 0;
-            color: #333;
-            font-weight: 600;
-        }
-        .category-item a {
-            display: block;
-            text-decoration: none;
-        }
-        .category-item a:hover {
-            text-decoration: none;
-        }
->>>>>>> f0d6add (Save local changes before pulling)
     </style>
-=======
-    <link rel="stylesheet" href="public/css/cusstom.css">
->>>>>>> c74bba3e86d492833decba5dea150aaa94f2e3e2
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -234,63 +173,14 @@
 
     <!-- DANH MỤC -->
     <div class="container py-5">
-<<<<<<< HEAD
-        <h2 class="text-center mb-4">Danh Mục Sản Phẩm</h2>
+        <h2 class="text-center mb-4">Danh mục sản phẩm</h2>
         <div class="row g-4">
             <?php
-            // Mảng ánh xạ danh mục với icon tương ứng
-            $categoryIcons = [
-                'Điện thoại' => 'mobile-alt',
-                'Laptop' => 'laptop',
-                'Máy tính bảng' => 'tablet-alt',
-                'Phụ kiện' => 'headphones',
-                'Đồng hồ thông minh' => 'watch',
-                'Máy ảnh' => 'camera',
-                'Loa' => 'volume-up',
-                'Tai nghe' => 'headset'
-            ];
-
-            foreach ($categories as $cat): 
-                $icon = isset($categoryIcons[$cat['TenDanhMuc']]) ? $categoryIcons[$cat['TenDanhMuc']] : 'mobile-alt';
-            ?>
-                <div class="col-md-3 col-sm-6">
-                    <div class="category-item text-center">
-<<<<<<< HEAD
-                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" class="text-decoration-none text-dark">
-                            <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
-=======
-                        <a href="index.php?act=category&category_id=<?php echo $cat['MaDanhMuc']; ?>">
-                            <i class="fas fa-<?php echo $icon; ?> fa-3x"></i>
->>>>>>> f0d6add (Save local changes before pulling)
-=======
-        <h2 class="section-title text-center">Danh Mục Sản Phẩm</h2>
-        <div class="row g-4">
-            <?php foreach ($categories as $cat): ?>
+            foreach ($categories as $cat): ?>
                 <div class="col-md-3">
                     <div class="category-item text-center">
-                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" 
-                           class="text-decoration-none text-dark">
-                            <?php
-                            $icon = 'mobile-alt';
-                            switch(strtolower($cat['TenDanhMuc'])) {
-                                case 'ốp lưng':
-                                    $icon = 'mobile-screen-button';
-                                    break;
-                                case 'điện thoại':
-                                    $icon = 'mobile';
-                                    break;
-                                case 'laptop':
-                                    $icon = 'laptop';
-                                    break;
-                                case 'phụ kiện':
-                                    $icon = 'headphones';
-                                    break;
-                            }
-                            ?>
-                            <div class="category-icon mb-3">
-                                <i class="fas fa-<?php echo $icon; ?> fa-2x"></i>
-                            </div>
->>>>>>> c74bba3e86d492833decba5dea150aaa94f2e3e2
+                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" class="text-decoration-none text-dark">
+                            <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
                             <h5><?php echo htmlspecialchars($cat['TenDanhMuc']); ?></h5>
                         </a>
                     </div>
