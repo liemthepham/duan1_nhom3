@@ -7,15 +7,25 @@
     <title>Cửa hàng điện tử</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="public/css/cusstom.css">
+
+    <link rel="stylesheet" href="/duan1//public/css/cusstom.css">
+    <style>
+
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
 
+<<<<<<< HEAD
     <?php
     $user = $_SESSION['user'] ?? null;
     ?>
+=======
+    <?php include 'views/header.php'; ?>
+
+    <!-- HEADER -->
+>>>>>>> f0d6add (Save local changes before pulling)
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.php?act=home">
@@ -163,33 +173,14 @@
 
     <!-- DANH MỤC -->
     <div class="container py-5">
-        <h2 class="section-title text-center">Danh Mục Sản Phẩm</h2>
+        <h2 class="text-center mb-4">Danh mục sản phẩm</h2>
         <div class="row g-4">
-            <?php foreach ($categories as $cat): ?>
+            <?php
+            foreach ($categories as $cat): ?>
                 <div class="col-md-3">
                     <div class="category-item text-center">
-                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" 
-                           class="text-decoration-none text-dark">
-                            <?php
-                            $icon = 'mobile-alt';
-                            switch(strtolower($cat['TenDanhMuc'])) {
-                                case 'ốp lưng':
-                                    $icon = 'mobile-screen-button';
-                                    break;
-                                case 'điện thoại':
-                                    $icon = 'mobile';
-                                    break;
-                                case 'laptop':
-                                    $icon = 'laptop';
-                                    break;
-                                case 'phụ kiện':
-                                    $icon = 'headphones';
-                                    break;
-                            }
-                            ?>
-                            <div class="category-icon mb-3">
-                                <i class="fas fa-<?php echo $icon; ?> fa-2x"></i>
-                            </div>
+                        <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" class="text-decoration-none text-dark">
+                            <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
                             <h5><?php echo htmlspecialchars($cat['TenDanhMuc']); ?></h5>
                         </a>
                     </div>
@@ -366,29 +357,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="pt-5 pb-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Về chúng tôi</h5>
-                    <p>Cửa hàng điện tử uy tín, chất lượng</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Liên hệ</h5>
-                    <p>Email: contact@example.com</p>
-                    <p>Điện thoại: 0123 456 789</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Theo dõi chúng tôi</h5>
-                    <div class="d-flex">
-                        <a href="#" class="text-light me-2"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-light me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'views/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

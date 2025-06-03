@@ -8,11 +8,11 @@ require_once 'controllers/FrontProductController.php';
 
 require_once 'controllers/CartController.php';
 require_once 'controllers/CheckoutController.php';
-require_once 'models/user.php';
 
 $productController = new FrontProductController($pdo);
 $cartController = new CartController();
 $checkoutController = new CheckoutController($pdo);
+$categoryController = new CategoryController();
 // $homeController = new HomeController($pdo); // Sẽ tạo lại sau
 
 $act = $_GET['act'] ?? 'home';
@@ -169,138 +169,7 @@ switch ($act) {
         $checkoutController->orderSuccess();
         break;
 
-        // Thêm các case cho đăng nhập/đăng ký/thanh toán sau
-        //case login:
-        if (isset($_GET['act']) && $_GET['act'] === 'logout') {
-            session_destroy();
-            header('Location: index.php?act=login');
-
-            exit;
-        }
-
-    case 'login':
-        // Nếu đã login rồi, chuyển về home
-        if (isset($_SESSION['user'])) {
-            header('Location: index.php?act=home');
-            exit;
-        }
-
-        // Nếu POST (submit form)
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Lấy dữ liệu
-            $username = trim($_POST['username'] ?? '');
-            $password = trim($_POST['password'] ?? '');
-
-            // Xác thực
-            $userModel = new User();
-            $user = $userModel->authenticate($username, $password);
-
-            if ($user) {
-                // Lưu session
-                $_SESSION['user'] = $user;
-
-                // Redirect theo vai trò
-                if ($user['VaiTro'] === 'admin') {
-                    header('Location: admin/');
-                } else {
-                    header('Location: index.php?act=home');
-                }
-                exit;
-            } else {
-                // Sai thông tin: gắn lỗi và render lại form
-                $errorMsg = 'Tên đăng nhập hoặc mật khẩu không đúng';
-                require_once __DIR__ . '/views/login.php';
-                break;
-            }
-        }
-
-        // Nếu GET: chỉ render form login
-        require_once __DIR__ . '/views/login.php';
-        break;
-
-
-
-    case 'logout':
-        $_SESSION['flash'] = [
-            'type'    => 'success',
-            'message' => 'Bạn đã đăng xuất thành công.'  // ← Dòng này!
-        ];
-
-        // 3. Giữ lại flash riêng, xoá phần còn lại của session
-        $flash = $_SESSION['flash'];
-        session_unset();
-        session_destroy();
-
-        // 4. Mở lại session và restore flash
-        session_start();
-        $_SESSION['flash'] = $flash;
-
-        // 5. Redirect về trang home
-        header('Location: index.php?act=home');
-        exit;
-        break;
-
-    case 'register':
-        require_once 'views/register.php';
-        break;
-    case 'do-register':
-        // Lấy dữ liệu
-        $u     = trim($_POST['username']   ?? '');
-        $e     = trim($_POST['email']      ?? '');
-        $p1    = $_POST['password']        ?? '';
-        $p2    = $_POST['password2']       ?? '';
-        $agree = isset($_POST['agreeTerms']);
-        $vt    = $_POST['vaiTro'] ?? 'khachhang';
-
-        // Validate cơ bản
-        if (!$u || !$e || !$p1 || $p1 !== $p2 || !$agree) {
-            $errorMsg = 'Vui lòng điền đầy đủ và chính xác.';
-            require_once 'views/register.php';
-            break;
-        }
-
-        // Chỉ Admin mới có thể tạo Admin
-        if ($vt === 'admin') {
-            if (empty($_SESSION['user']) || $_SESSION['user']['VaiTro'] !== 'admin') {
-                // Nếu không phải admin, ép về khachhang
-                $vt = 'khachhang';
-            }
-        }
-
-        // Kiểm tra tồn tại
-        $stmt = $pdo->prepare(
-            "SELECT COUNT(*) FROM nguoidung
-     WHERE TenDangNhap=:u OR Email=:e"
-        );
-        $stmt->execute([':u' => $u, ':e' => $e]);
-        if ($stmt->fetchColumn() > 0) {
-            $errorMsg = 'Tên đăng nhập hoặc Email đã tồn tại.';
-            require_once 'views/register.php';
-            break;
-        }
-
-        // Chèn mới với VaiTro lấy từ form
-        $hash = password_hash($p1, PASSWORD_DEFAULT);
-        $insert = $pdo->prepare(
-            "INSERT INTO nguoidung
-     (TenDangNhap, Email, MatKhau, VaiTro)
-     VALUES (:u, :e, :p, :v)"
-        );
-        $insert->execute([
-            ':u' => $u,
-            ':e' => $e,
-            ':p' => $hash,
-            ':v' => $vt
-        ]);
-
-        // Nếu Admin tạo user thì quay lại dashboard admin,
-        // còn user thường thì redirect về login
-        if (!empty($_SESSION['user']) && $_SESSION['user']['VaiTro'] === 'admin') {
-            header('Location: admin/index.php');
-        } else {
-            header('Location: index.php?act=login&registered=1');
-        }
-        exit;
+    // Thêm các case cho đăng nhập/đăng ký/thanh toán sau
 
     default:
         // Trang 404
