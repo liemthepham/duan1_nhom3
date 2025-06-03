@@ -10,15 +10,78 @@
 
     <link rel="stylesheet" href="/duan1//public/css/cusstom.css">
     <style>
+<<<<<<< HEAD
 
+=======
+        .product-card {
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-image {
+            height: 200px;
+            object-fit: cover;
+        }
+        .price {
+            color: #e44d26;
+            font-weight: bold;
+        }
+        /* Custom CSS for banner image */
+        .banner-img {
+            width: 85%; /* Ensure it takes full width of its container */
+            max-height: 400px; /* Set a maximum height */
+            object-fit: cover; /* Crop the image to cover the area without distortion */
+        }
+        /* Custom CSS for banner section spacing */
+        .banner-section {
+            margin-top: 10px; /* Adjust this value for desired spacing from the top */
+        }
+        .category-item {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .category-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        .category-item i {
+            color: #007bff;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .category-item h5 {
+            margin: 0;
+            color: #333;
+            font-weight: 600;
+        }
+        .category-item a {
+            display: block;
+            text-decoration: none;
+        }
+        .category-item a:hover {
+            text-decoration: none;
+        }
+>>>>>>> f0d6add (Save local changes before pulling)
     </style>
 </head>
 
 <body>
 
+<<<<<<< HEAD
     <?php
     $user = $_SESSION['user'] ?? null;
     ?>
+=======
+    <?php include 'views/header.php'; ?>
+
+    <!-- HEADER -->
+>>>>>>> f0d6add (Save local changes before pulling)
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.php?act=home">
@@ -160,14 +223,33 @@
 
     <!-- DANH MỤC -->
     <div class="container py-5">
-        <h2 class="text-center mb-4">Danh mục sản phẩm</h2>
+        <h2 class="text-center mb-4">Danh Mục Sản Phẩm</h2>
         <div class="row g-4">
             <?php
-            foreach ($categories as $cat): ?>
-                <div class="col-md-3">
+            // Mảng ánh xạ danh mục với icon tương ứng
+            $categoryIcons = [
+                'Điện thoại' => 'mobile-alt',
+                'Laptop' => 'laptop',
+                'Máy tính bảng' => 'tablet-alt',
+                'Phụ kiện' => 'headphones',
+                'Đồng hồ thông minh' => 'watch',
+                'Máy ảnh' => 'camera',
+                'Loa' => 'volume-up',
+                'Tai nghe' => 'headset'
+            ];
+
+            foreach ($categories as $cat): 
+                $icon = isset($categoryIcons[$cat['TenDanhMuc']]) ? $categoryIcons[$cat['TenDanhMuc']] : 'mobile-alt';
+            ?>
+                <div class="col-md-3 col-sm-6">
                     <div class="category-item text-center">
+<<<<<<< HEAD
                         <a href="index.php?act=home&category_id=<?php echo $cat['MaDanhMuc']; ?>" class="text-decoration-none text-dark">
                             <i class="fas fa-<?php /* Cần thêm cột icon vào bảng danhmuc hoặc mapping */ echo 'mobile-alt'; ?> fa-2x mb-2"></i>
+=======
+                        <a href="index.php?act=category&category_id=<?php echo $cat['MaDanhMuc']; ?>">
+                            <i class="fas fa-<?php echo $icon; ?> fa-3x"></i>
+>>>>>>> f0d6add (Save local changes before pulling)
                             <h5><?php echo htmlspecialchars($cat['TenDanhMuc']); ?></h5>
                         </a>
                     </div>
@@ -261,29 +343,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="pt-5 pb-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Về chúng tôi</h5>
-                    <p>Cửa hàng điện tử uy tín, chất lượng</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Liên hệ</h5>
-                    <p>Email: contact@example.com</p>
-                    <p>Điện thoại: 0123 456 789</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Theo dõi chúng tôi</h5>
-                    <div class="d-flex">
-                        <a href="#" class="text-light me-2"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-light me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'views/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
